@@ -1,5 +1,7 @@
 #include "MainMenuState.h"
 
+#include <iostream>
+
 
 
 MainMenuState::MainMenuState(GameDataRef data) : _data(data)
@@ -52,10 +54,12 @@ void MainMenuState::Init()
 
 	}
 
+	_hover_button_type = ButtonName::None;
+
 }
 
 
-#include <iostream>
+
 
 void MainMenuState::HandleInput()
 {
@@ -100,7 +104,7 @@ void MainMenuState::Update(float dt)
 	for (auto& button : this->_buttons)
 	{
 		bool contains = button.GetGlobalBounds().contains(this->_data->window.mapPixelToCoords(sf::Mouse::getPosition(this->_data->window)));
-		std::cout << contains << std::endl;
+		
 		if(contains)
 		{
 			button.Hover(sf::Vector2f(305, 105), sf::Mouse::getPosition(this->_data->window), 0.01f);
@@ -110,15 +114,23 @@ void MainMenuState::Update(float dt)
 		else if(!contains)
 		{
 			button.Hover(sf::Vector2f(300, 100), sf::Mouse::getPosition(this->_data->window), 0.01f);
-			_hover_button_type = ButtonName::Type::None;
+			
+			if (_hover_button_type == button.GetButtonType())
+			{
+				_hover_button_type = ButtonName::Type::None;
+			}
+			
 			
 		}
 	}
+	
+
+	
 }
 
 void MainMenuState::Render(float dt)
 {
-	_data->window.clear(sf::Color(32,32,36));
+	_data->window.clear();
 
 	this->_data->window.draw(_background);
 

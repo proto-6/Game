@@ -28,6 +28,8 @@ int main()
 // TODO: :)
 // Urgency:
 // Fix hover button getting value of all buttons in MainMenu state
+// the problem for some reason occure for second button, when secon button is hovered it outputs in console 
+// values of second button and third simultaneously :<
 // 
 // Game menu state:
 // Develop game state (for now just a dummy) to test how transition works -
