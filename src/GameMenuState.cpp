@@ -1,22 +1,19 @@
-#include "MainMenuState.h"
+#include "GameMenuState.h"
 
 #include <iostream>
 
-
-
-MainMenuState::MainMenuState(GameDataRef data) 
-	: _data(data), _hover_button_type(ButtonName::None)
+GameMenuState::GameMenuState(GameDataRef data)
+	: _data(data)
 {
-	
-	
+
 }
 
-void MainMenuState::Init()
+void GameMenuState::Init()
 {
 	this->_hover_button_type = ButtonName::Type::None;
-	this->_data->assets.LoadTexture(Texture::MainMenu_Background, "../resource/assets/backgrounds/Dungeon background cartoon 2d 1.jpg");
+	this->_data->assets.LoadTexture(Texture::GameMenu_Background, "../resource/assets/backgrounds/Dungeon background cartoon 2d 6.jpg");
 
-	this->_background.setTexture(this->_data->assets.GetTexture(Texture::MainMenu_Background));
+	this->_background.setTexture(this->_data->assets.GetTexture(Texture::GameMenu_Background));
 	this->_background.setOrigin(this->_background.getGlobalBounds().getSize() / 2.f);
 	this->_background.setPosition(this->_data->window.getSize().x / 2, this->_data->window.getSize().y / 2.f);
 	this->_background.setScale(this->_data->window.getSize().x / 1536.f, this->_data->window.getSize().y / 1536.f); // 1536 is resolution of background picture (yes, it's 1536x1536)
@@ -59,10 +56,7 @@ void MainMenuState::Init()
 
 }
 
-
-
-
-void MainMenuState::HandleInput()
+void GameMenuState::HandleInput()
 {
 	sf::Event ev;
 
@@ -76,7 +70,6 @@ void MainMenuState::HandleInput()
 				if (_hover_button_type == ButtonName::Play)
 				{
 					std::cout << "Play Button pressed" << std::endl;
-					_data->stack.AddState(StatePtr(new GameMenuState(_data)), true);
 				}
 				else if (_hover_button_type == ButtonName::Settings)
 				{
@@ -93,44 +86,38 @@ void MainMenuState::HandleInput()
 				}
 			}
 		}
-		
-		
+
+
 	}
-		
-		
-	
 }
 
-void MainMenuState::Update(float dt)
+void GameMenuState::Update(float dt)
 {
 	for (auto& button : this->_buttons)
 	{
 		bool contains = button.GetGlobalBounds().contains(this->_data->window.mapPixelToCoords(sf::Mouse::getPosition(this->_data->window)));
-		
-		if(contains)
+
+		if (contains)
 		{
 			button.Hover(sf::Vector2f(305, 105), sf::Mouse::getPosition(this->_data->window), 0.01f);
 			_hover_button_type = button.GetButtonType();
-			
+
 		}
-		else if(!contains)
+		else if (!contains)
 		{
 			button.Hover(sf::Vector2f(300, 100), sf::Mouse::getPosition(this->_data->window), 0.01f);
-			
+
 			if (_hover_button_type == button.GetButtonType())
 			{
 				_hover_button_type = ButtonName::Type::None;
 			}
-			
-			
+
+
 		}
 	}
-	
-
-	
 }
 
-void MainMenuState::Render(float dt)
+void GameMenuState::Render(float dt)
 {
 	_data->window.clear();
 
@@ -139,9 +126,9 @@ void MainMenuState::Render(float dt)
 	for (auto& button : this->_buttons)
 	{
 		this->_data->window.draw(button);
-		
+
 	}
-	
+
 
 	_data->window.display();
 }

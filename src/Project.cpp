@@ -27,9 +27,7 @@ int main()
 
 // TODO: :)
 // Urgency:
-// Fix hover button getting value of all buttons in MainMenu state
-// the problem for some reason occure for second button, when secon button is hovered it outputs in console 
-// values of second button and third simultaneously :<
+// 
 // 
 // Game menu state:
 // Develop game state (for now just a dummy) to test how transition works -
@@ -56,4 +54,6 @@ int main()
 // Created main menu state and implemented mechanism to move from state to state
 // Add Lerp function somewhere so I've got no bugs
 // Fixed hover on button breaking center point
+// Fix hover button getting value of all buttons in MainMenu state
+// 
 //

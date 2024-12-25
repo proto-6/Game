@@ -6,9 +6,8 @@
 #include "State.h"
 #include "Button.h"
 #include "DEFINITIONS.h"
-#include "GameMenuState.h"
 
-class MainMenuState : public State
+class GameMenuState : public State
 {
 private:
 	GameDataRef _data;
@@ -17,11 +16,12 @@ private:
 	std::vector<gm::Button> _buttons;
 	sf::Sprite _background;
 public:
-	MainMenuState(GameDataRef data);
+
+	GameMenuState(GameDataRef data);
 
 	void Init();
 
-	
+
 
 	void HandleInput();
 	void Update(float dt);

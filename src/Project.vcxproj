@@ -144,6 +144,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="GameMenuState.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Project.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="DEFINITIONS.h" />
     <ClInclude Include="GameData.h" />
+    <ClInclude Include="GameMenuState.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="RoundedRectangleShape.h" />

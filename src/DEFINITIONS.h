@@ -17,7 +17,8 @@ namespace Texture
 	enum Type
 	{
 		Blue_Flame,
-		MainMenu_Background
+		MainMenu_Background,
+		GameMenu_Background
 	};
 
 }
