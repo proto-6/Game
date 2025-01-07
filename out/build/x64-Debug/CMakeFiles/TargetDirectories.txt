@@ -1,0 +1,5 @@
+C:/Users/Jorgi/Desktop/code stuff/WriteGame/Project/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Jorgi/Desktop/code stuff/WriteGame/Project/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Jorgi/Desktop/code stuff/WriteGame/Project/out/build/x64-Debug/src/CMakeFiles/Project.dir
+C:/Users/Jorgi/Desktop/code stuff/WriteGame/Project/out/build/x64-Debug/src/CMakeFiles/edit_cache.dir
+C:/Users/Jorgi/Desktop/code stuff/WriteGame/Project/out/build/x64-Debug/src/CMakeFiles/rebuild_cache.dir
