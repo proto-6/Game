@@ -23,8 +23,8 @@ void SplashState::Init()
 	);
 	
 	_text.setFont(_data->assets.GetFont(Font::Type::PixeloidSans));
-	_text.setString("Spirit Dungeon");
-	_text.setCharacterSize(48);
+	_text.setString("Magic Tinkerer");
+	_text.setCharacterSize(72);
 	_text.setFillColor(sf::Color::White);
 	_text.setOrigin(_text.getGlobalBounds().getSize() / 2.f);
 	_text.setPosition
