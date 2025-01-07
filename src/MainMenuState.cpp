@@ -11,16 +11,24 @@ MainMenuState::MainMenuState(GameDataRef data)
 	
 }
 
+void MainMenuState::MoveCharacter(sf::Vector2f pos2, float dt)
+{
+	/*SetSize(original_size + speed * (hover_size - original_size));*/
+	sf::Vector2f new_pos = hero->GetPosition() + (dt / 100.f) * (pos2 - hero->GetPosition());
+	hero->SetPosition(new_pos);
+}
+
 void MainMenuState::Init()
 {
-	this->_hover_button_type = ButtonName::Type::None;
-	this->_data->assets.LoadTexture(Texture::MainMenu_Background, "../resource/assets/backgrounds/Dungeon background cartoon 2d 1.jpg");
+	InitButtons();
+	InitCharacter();
+	
+	_hover_button_type = ButtonName::None;
 
-	this->_background.setTexture(this->_data->assets.GetTexture(Texture::MainMenu_Background));
-	this->_background.setOrigin(this->_background.getGlobalBounds().getSize() / 2.f);
-	this->_background.setPosition(this->_data->window.getSize().x / 2, this->_data->window.getSize().y / 2.f);
-	this->_background.setScale(this->_data->window.getSize().x / 1536.f, this->_data->window.getSize().y / 1536.f); // 1536 is resolution of background picture (yes, it's 1536x1536)
+}
 
+void MainMenuState::InitButtons()
+{
 	std::vector<sf::String> button_names = { "Play", "Settings", "Exit" };
 	for (auto& button_name : button_names)
 	{
@@ -31,13 +39,13 @@ void MainMenuState::Init()
 
 			this->_buttons.back().SetPosition
 			(
-				this->_data->window.getSize().x / 2.f - this->_buttons.back().GetSize().x / 2.f,
-				this->_data->window.getSize().y / 2.5f
+				this->_data->window.getSize().x / 8.f - this->_buttons.back().GetSize().x / 8.f,
+				this->_data->window.getSize().y / 1.8f
 			);
 		}
 		else
 		{
-			float x = this->_data->window.getSize().x / 2.f - this->_buttons.back().GetSize().x / 2.f;
+			float x = this->_data->window.getSize().x / 8.f - this->_buttons.back().GetSize().x / 8.f;
 			float y = this->_buttons.back().GetPosition().y + this->_buttons.back().GetSize().y;
 			float gap = this->_buttons.back().GetSize().y / 4.5f;
 
@@ -54,9 +62,12 @@ void MainMenuState::Init()
 		}
 
 	}
+}
 
-	_hover_button_type = ButtonName::None;
-
+void MainMenuState::InitCharacter()
+{
+	hero = std::make_shared<Character>(Character(this->_data->assets));
+	
 }
 
 
@@ -103,39 +114,54 @@ void MainMenuState::HandleInput()
 
 void MainMenuState::Update(float dt)
 {
+	UpdateButtons();
+	
+	/* Cool animation, saving for later (maybe implement so character goes out of bound to the right side, 
+	after that returns to designed for him place)
+	MoveCharacter(
+		sf::Vector2f
+		(
+			this->_data->window.getSize().x / (2/3.f),
+			this->_data->window.getSize().y / 3.f
+		), 
+		dt);*/
+	MoveCharacter(sf::Vector2f(1220, 360), dt);
+	hero->Update(dt);
+	
+	
+}
+
+void MainMenuState::UpdateButtons()
+{
 	for (auto& button : this->_buttons)
 	{
 		bool contains = button.GetGlobalBounds().contains(this->_data->window.mapPixelToCoords(sf::Mouse::getPosition(this->_data->window)));
-		
-		if(contains)
+
+		if (contains)
 		{
 			button.Hover(sf::Vector2f(305, 105), sf::Mouse::getPosition(this->_data->window), 0.01f);
 			_hover_button_type = button.GetButtonType();
-			
+
 		}
-		else if(!contains)
+		else if (!contains)
 		{
 			button.Hover(sf::Vector2f(300, 100), sf::Mouse::getPosition(this->_data->window), 0.01f);
-			
+
 			if (_hover_button_type == button.GetButtonType())
 			{
 				_hover_button_type = ButtonName::Type::None;
 			}
-			
-			
+
+
 		}
 	}
-	
-
-	
 }
 
 void MainMenuState::Render(float dt)
 {
-	_data->window.clear();
+	this->_data->window.clear(sf::Color(16,16,16));
 
-	this->_data->window.draw(_background);
-
+	hero->Draw(&this->_data->window, dt);
 	for (auto& button : this->_buttons)
 	{
 		this->_data->window.draw(button);

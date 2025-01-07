@@ -18,9 +18,12 @@ namespace Texture
 	{
 		Blue_Flame,
 		MainMenu_Background,
-		GameMenu_Background
+		GameMenu_Background,
+		CharacterIdle0,
+		CharacterIdle1,
+		CharacterIdle2,
+		CharacterIdle3
 	};
-
 }
 
 

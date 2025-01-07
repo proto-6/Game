@@ -6,7 +6,7 @@
 Application::Application(int width, int heigh, std::string title)
 {
 	_data = std::make_shared<GameData>();
-	_data->window.create(sf::VideoMode(width, heigh), title, sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
+	_data->window.create(sf::VideoMode(width, heigh), title, sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize | sf::Style::Fullscreen);
 	_data->stack.AddState(StatePtr(new SplashState(this->_data)), false);
 }
 

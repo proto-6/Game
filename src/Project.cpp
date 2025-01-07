@@ -4,7 +4,7 @@
 #include <cassert>
 
 #include "Button.h"
-
+#include "Character.h"
 
 
 
@@ -17,10 +17,12 @@ int main()
         std::cout << iter->width << "x" << iter->height << std::endl;
     }*/
 
-    Application app(1024, 768, "Spirit Dungeon");
+    Application app(1920, 1080, "Magic Tinkerer");
 
 
     app.Run();
+
+
     
     return 0;
 }
