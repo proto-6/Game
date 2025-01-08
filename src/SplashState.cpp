@@ -34,7 +34,7 @@ void SplashState::Init()
 	); // Pure magic
 }
 
-void SplashState::HandleInput()
+void SplashState::HandleInput(float dt)
 {
 	sf::Event ev;
 

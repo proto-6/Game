@@ -67,13 +67,13 @@ void MainMenuState::InitButtons()
 void MainMenuState::InitCharacter()
 {
 	_hero = std::make_shared<Character>(Character(this->_data->assets));
-	
+	_hero->SetScale(20, 20);
 }
 
 
 
 
-void MainMenuState::HandleInput()
+void MainMenuState::HandleInput(float dt)
 {
 	sf::Event ev;
 

@@ -21,12 +21,15 @@ Character::Character(AssetManager& manager)
 	// Setting initial texture to a character
 	_hero.setTexture(*_animations[0]);
 	_current_animation = 0;
-	_state = Character::State::Idle;
+	_state = Movement::State::Idle;
 
 	_hero.setPosition(sf::Vector2f(0, 0));
 	_animation_interval = 0.2f;
 	_elapsed_time = 0.f;
-	_hero.setScale(20, 20);
+	_hero.setScale(1, 1);
+	_direction.x = 0.f;
+	_direction.y = 0.f;
+	_speed = 200.f;
 }
 
 Character& Character::operator=(const Character& other)
@@ -44,12 +47,27 @@ Character& Character::operator=(const Character& other)
 
 sf::Vector2f Character::GetScale() const
 {
-	return _hero.getScale();
+	return this->_hero.getScale();
+}
+
+sf::Vector2f Character::GetDirection()
+{
+	return this->_direction;
+}
+
+Movement::State Character::GetState() const
+{
+	return this->_state;
+}
+
+float Character::GetSpeed()
+{
+	return this->_speed;
 }
 
 void Character::Draw(sf::RenderWindow* window, float dt)
 {
-	window->draw(_hero);
+	window->draw(this->_hero);
 }
 
 void Character::Update(float dt)
@@ -61,11 +79,11 @@ void Character::Update(float dt)
 
 		switch (_state)
 		{
-		case Character::State::Idle:
+		case Movement::State::Idle:
 			
 			_current_animation = (_current_animation + 1) % _animations.size(); // So vector doesn't overflow
 
-			_hero.setTexture(*_animations[_current_animation]); // Set hero texture to next one
+			this->_hero.setTexture(*_animations[_current_animation]); // Set hero texture to next one
 			break;
 		default:
 			break;
@@ -75,18 +93,64 @@ void Character::Update(float dt)
 
 void Character::SetPosition(sf::Vector2f pos2)
 {
-	_hero.setPosition(pos2);
+	this->_hero.setPosition(pos2);
 }
 
 void Character::SetPosition(float x, float y)
 {
-	_hero.setPosition(x, y);
+	this->_hero.setPosition(x, y);
+}
+
+void Character::Move(sf::Vector2f pos2)
+{
+	this->_hero.move(pos2);
+}
+
+void Character::Move(float x, float y)
+{
+	this->_hero.move(x, y);
 }
 
 void Character::SetScale(sf::Vector2f scale)
 {
 	_hero.setScale(scale);
 }
+
+void Character::SetScale(float x, float y)
+{
+	_hero.setScale(x, y);
+}
+
+void Character::SetSpeed(float speed)
+{
+	_speed = speed;
+}
+
+void Character::SetDirection(float x, float y)
+{
+	this->_direction.x += x;
+	this->_direction.y += y;
+}
+
+void Character::SetDirection(sf::Vector2f direction)
+{
+	this->_direction.x += direction.x;
+	this->_direction.y += direction.y;
+}
+
+void Character::ClearDirection()
+{
+	this->_direction.x = 0.f;
+	this->_direction.y = 0.f;
+}
+
+void Character::SetState(Movement::State state)
+{
+	this->_state = state;
+}
+
+
+
 
 
 

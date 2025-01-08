@@ -56,7 +56,7 @@ void GameMenuState::Init()
 
 }
 
-void GameMenuState::HandleInput()
+void GameMenuState::HandleInput(float dt)
 {
 	sf::Event ev;
 

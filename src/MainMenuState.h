@@ -32,7 +32,7 @@ public:
 	void InitCharacter();
 	
 	// Core methods
-	void HandleInput();
+	void HandleInput(float dt);
 	void Update(float dt) override;
 	void UpdateButtons();
 	void Render(float dt) override;

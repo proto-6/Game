@@ -23,7 +23,7 @@ public:
 
 
 
-	void HandleInput() override;
+	void HandleInput(float dt) override;
 	void Update(float dt) override;
 	void Render(float dt) override;
 

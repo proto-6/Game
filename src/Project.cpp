@@ -29,7 +29,7 @@ int main()
 
 // TODO: :)
 // Urgency:
-// 
+// Movement and view are done, need to fix animation somehow working when pressing up or down arrow keys.
 // 
 // Game menu state:
 // Develop game state (for now just a dummy) to test how transition works -
