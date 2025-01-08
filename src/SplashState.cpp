@@ -29,8 +29,8 @@ void SplashState::Init()
 	_text.setOrigin(_text.getGlobalBounds().getSize() / 2.f);
 	_text.setPosition
 	(
-		this->_data->window.getSize().x / 2,
-			(this->_data->window.getSize().y / 2)  + this->_text.getGlobalBounds().height * 2
+		this->_data->window.getSize().x / 2.f,
+			(this->_data->window.getSize().y / 2.f)  + this->_text.getGlobalBounds().height * 2.f
 	); // Pure magic
 }
 

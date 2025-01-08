@@ -38,9 +38,9 @@ public:
 	void SetOrigin(sf::Vector2f coords);
 
 	// Getters
-	const sf::Vector2f& GetSize();
+	sf::Vector2f GetSize();
 	const sf::Vector2f& GetPosition();
-	unsigned int GetCornerPointCount();
+	size_t GetCornerPointCount();
 	float GetCornerRadius();
 	sf::FloatRect GetGlobalBounds();
 	sf::Vector2f GetOrigin();

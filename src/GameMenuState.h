@@ -19,13 +19,13 @@ public:
 
 	GameMenuState(GameDataRef data);
 
-	void Init();
+	void Init() override;
 
 
 
-	void HandleInput();
-	void Update(float dt);
-	void Render(float dt);
+	void HandleInput() override;
+	void Update(float dt) override;
+	void Render(float dt) override;
 
 };
 

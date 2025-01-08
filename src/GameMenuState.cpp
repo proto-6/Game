@@ -3,7 +3,7 @@
 #include <iostream>
 
 GameMenuState::GameMenuState(GameDataRef data)
-	: _data(data)
+	: _data(data), _hover_button_type(ButtonName::Type::None)
 {
 
 }
@@ -15,7 +15,7 @@ void GameMenuState::Init()
 
 	this->_background.setTexture(this->_data->assets.GetTexture(Texture::GameMenu_Background));
 	this->_background.setOrigin(this->_background.getGlobalBounds().getSize() / 2.f);
-	this->_background.setPosition(this->_data->window.getSize().x / 2, this->_data->window.getSize().y / 2.f);
+	this->_background.setPosition(this->_data->window.getSize().x / 2.f, this->_data->window.getSize().y / 2.f);
 	this->_background.setScale(this->_data->window.getSize().x / 1536.f, this->_data->window.getSize().y / 1536.f); // 1536 is resolution of background picture (yes, it's 1536x1536)
 
 	std::vector<sf::String> button_names = { "Play", "Settings", "Exit" };
