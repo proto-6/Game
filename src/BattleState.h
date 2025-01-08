@@ -12,6 +12,10 @@ private:
 	GameDataRef _data;
 	std::shared_ptr<Character> _hero;
 	sf::View view;
+	sf::CircleShape circle;
+
+	// Methods
+	void ProcessMovement(float dt);
 
 public:
 	BattleState(GameDataRef data, std::shared_ptr<Character>& hero);
@@ -20,7 +24,7 @@ public:
 	void Init() override;
 
 	// Core methods
-	void HandleInput() override;
+	void HandleInput(float dt) override;
 	void Update(float dt) override;
 	void Render(float dt) override;
 };

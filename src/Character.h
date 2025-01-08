@@ -4,21 +4,26 @@
 #include <vector>
 #include "GameData.h"
 
-
-class Character
+namespace Movement
 {
 	enum class State
 	{
-		Idle
+		Idle,
+		Moving
 	};
+}
 
+class Character
+{
 private:
 	sf::Sprite _hero;
-	Character::State _state;
+	Movement::State _state;
 	std::vector<std::shared_ptr<sf::Texture>> _animations;
 	unsigned int _current_animation;
 	float _animation_interval;
 	float _elapsed_time;
+	sf::Vector2f _direction; // Direction in x and y directions (positive directions are right and down, negative are opposite)
+	float _speed;
 
 public:
 	// Constructors
@@ -29,15 +34,25 @@ public:
 	// Setters
 	void SetPosition(sf::Vector2f pos2);
 	void SetPosition(float x, float y);
+	void Move(sf::Vector2f pos2);
+	void Move(float x, float y);
 	void SetScale(sf::Vector2f scale);
+	void SetScale(float x, float y);
+	void SetSpeed(float speed);
+	void SetDirection(float x, float y);
+	void SetDirection(sf::Vector2f direction);
+	void ClearDirection();
+	void SetState(Movement::State state);
 
 	// Getters
 	sf::Vector2f GetPosition() const { return _hero.getPosition(); };
 	sf::Vector2f GetScale() const;
+	sf::Vector2f GetDirection();
+	Movement::State GetState() const;
+	float GetSpeed();
 
 	// Core methods
 	void Draw(sf::RenderWindow* window, float dt);
 	void Update(float dt);
-
 };
 

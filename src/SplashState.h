@@ -19,7 +19,7 @@ public:
 
 	void Init();
 
-	void HandleInput();
+	void HandleInput(float dt);
 	void Update(float dt);
 	void Render(float dt);
 
