@@ -13,22 +13,31 @@ class Character
 	};
 
 private:
-	sf::Sprite hero;
-	Character::State state;
-	std::vector<std::shared_ptr<sf::Texture>> animations;
-	unsigned int current_animation;
-	float animation_interval;
-	float elapsed_time;
+	sf::Sprite _hero;
+	Character::State _state;
+	std::vector<std::shared_ptr<sf::Texture>> _animations;
+	unsigned int _current_animation;
+	float _animation_interval;
+	float _elapsed_time;
 
 public:
+	// Constructors
 	Character(AssetManager& manager);
 	Character& operator=(const Character& other);
 
+
+	// Setters
+	void SetPosition(sf::Vector2f pos2);
+	void SetPosition(float x, float y);
+	void SetScale(sf::Vector2f scale);
+
+	// Getters
+	sf::Vector2f GetPosition() const { return _hero.getPosition(); };
+	sf::Vector2f GetScale() const;
+
+	// Core methods
 	void Draw(sf::RenderWindow* window, float dt);
 	void Update(float dt);
-	void SetPosition(sf::Vector2f& pos2);
-	sf::Vector2f GetPosition() const { return hero.getPosition(); };
-
 
 };
 

@@ -7,60 +7,65 @@ Character::Character(AssetManager& manager)
 	
 	// Loading character idle animations into asset manager and adding it into an array so we can switch textures as we go
 	manager.LoadTexture(Texture::CharacterIdle0, "../resource/assets/character/wizzard_m_idle_anim_f0.png");
-	animations.push_back(std::make_shared<sf::Texture>(manager.GetTexture(Texture::CharacterIdle0)));
+	_animations.push_back(std::make_shared<sf::Texture>(manager.GetTexture(Texture::CharacterIdle0)));
 
 	manager.LoadTexture(Texture::CharacterIdle1, "../resource/assets/character/wizzard_m_idle_anim_f1.png");
-	animations.push_back(std::make_shared<sf::Texture>(manager.GetTexture(Texture::CharacterIdle1)));
+	_animations.push_back(std::make_shared<sf::Texture>(manager.GetTexture(Texture::CharacterIdle1)));
 
 	manager.LoadTexture(Texture::CharacterIdle2, "../resource/assets/character/wizzard_m_idle_anim_f2.png");
-	animations.push_back(std::make_shared<sf::Texture>(manager.GetTexture(Texture::CharacterIdle2)));
+	_animations.push_back(std::make_shared<sf::Texture>(manager.GetTexture(Texture::CharacterIdle2)));
 
 	manager.LoadTexture(Texture::CharacterIdle3, "../resource/assets/character/wizzard_m_idle_anim_f3.png");
-	animations.push_back(std::make_shared<sf::Texture>(manager.GetTexture(Texture::CharacterIdle3)));
+	_animations.push_back(std::make_shared<sf::Texture>(manager.GetTexture(Texture::CharacterIdle3)));
 	
 	// Setting initial texture to a character
-	hero.setTexture(*animations[0]);
-	current_animation = 0;
-	state = Character::State::Idle;
+	_hero.setTexture(*_animations[0]);
+	_current_animation = 0;
+	_state = Character::State::Idle;
 
-	hero.setPosition(sf::Vector2f(0, 0));
-	animation_interval = 50.f;
-	elapsed_time = 0.f;
-	hero.setScale(20, 20);
+	_hero.setPosition(sf::Vector2f(0, 0));
+	_animation_interval = 0.2f;
+	_elapsed_time = 0.f;
+	_hero.setScale(20, 20);
 }
 
 Character& Character::operator=(const Character& other)
 {
 	if (this != &other)
 	{
-		this->animations = other.animations;
-		this->current_animation = other.current_animation;
-		this->hero = other.hero;
-		this->state = other.state;
+		this->_animations = other._animations;
+		this->_current_animation = other._current_animation;
+		this->_hero = other._hero;
+		this->_state = other._state;
 	}
 	return *this;
 }
 
 
+sf::Vector2f Character::GetScale() const
+{
+	return _hero.getScale();
+}
+
 void Character::Draw(sf::RenderWindow* window, float dt)
 {
-	window->draw(hero);
+	window->draw(_hero);
 }
 
 void Character::Update(float dt)
 {
-	elapsed_time += dt;
-	if (elapsed_time >= animation_interval)
+	_elapsed_time += dt;
+	if (_elapsed_time >= _animation_interval)
 	{
-		elapsed_time -= animation_interval;
+		_elapsed_time -= _animation_interval;
 
-		switch (state)
+		switch (_state)
 		{
 		case Character::State::Idle:
 			
-			current_animation = (current_animation + 1) % animations.size(); // So vector doesn't overflow
+			_current_animation = (_current_animation + 1) % _animations.size(); // So vector doesn't overflow
 
-			hero.setTexture(*animations[current_animation]); // Set hero texture to next one
+			_hero.setTexture(*_animations[_current_animation]); // Set hero texture to next one
 			break;
 		default:
 			break;
@@ -68,9 +73,19 @@ void Character::Update(float dt)
 	}
 }
 
-void Character::SetPosition(sf::Vector2f& pos2)
+void Character::SetPosition(sf::Vector2f pos2)
 {
-	hero.setPosition(pos2);
+	_hero.setPosition(pos2);
+}
+
+void Character::SetPosition(float x, float y)
+{
+	_hero.setPosition(x, y);
+}
+
+void Character::SetScale(sf::Vector2f scale)
+{
+	_hero.setScale(scale);
 }
 
 

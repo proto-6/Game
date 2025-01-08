@@ -14,8 +14,8 @@ MainMenuState::MainMenuState(GameDataRef data)
 void MainMenuState::MoveCharacter(sf::Vector2f pos2, float dt)
 {
 	/*SetSize(original_size + speed * (hover_size - original_size));*/
-	sf::Vector2f new_pos = hero->GetPosition() + (dt / 100.f) * (pos2 - hero->GetPosition());
-	hero->SetPosition(new_pos);
+	sf::Vector2f new_pos = _hero->GetPosition() + (dt) * (pos2 - _hero->GetPosition());
+	_hero->SetPosition(new_pos);
 }
 
 void MainMenuState::Init()
@@ -66,7 +66,7 @@ void MainMenuState::InitButtons()
 
 void MainMenuState::InitCharacter()
 {
-	hero = std::make_shared<Character>(Character(this->_data->assets));
+	_hero = std::make_shared<Character>(Character(this->_data->assets));
 	
 }
 
@@ -87,7 +87,8 @@ void MainMenuState::HandleInput()
 				if (_hover_button_type == ButtonName::Play)
 				{
 					std::cout << "Play Button pressed" << std::endl;
-					_data->stack.AddState(StatePtr(new GameMenuState(_data)), true);
+					// Changed from GameMenuState to BattleState (in debugging purposed)
+					_data->stack.AddState(StatePtr(new BattleState(_data, _hero)), true);
 				}
 				else if (_hover_button_type == ButtonName::Settings)
 				{
@@ -126,7 +127,7 @@ void MainMenuState::Update(float dt)
 		), 
 		dt);*/
 	MoveCharacter(sf::Vector2f(1220, 360), dt);
-	hero->Update(dt);
+	_hero->Update(dt);
 	
 	
 }
@@ -161,7 +162,7 @@ void MainMenuState::Render(float dt)
 {
 	this->_data->window.clear(sf::Color(16,16,16));
 
-	hero->Draw(&this->_data->window, dt);
+	_hero->Draw(&this->_data->window, dt);
 	for (auto& button : this->_buttons)
 	{
 		this->_data->window.draw(button);

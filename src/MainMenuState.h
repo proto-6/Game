@@ -9,6 +9,7 @@
 #include "DEFINITIONS.h"
 #include "GameMenuState.h"
 #include "Character.h"
+#include "BattleState.h"
 
 class MainMenuState : public State
 {
@@ -17,7 +18,7 @@ private:
 	ButtonName::Type _hover_button_type;
 
 	std::vector<gm::Button> _buttons;
-	std::shared_ptr<Character> hero;
+	std::shared_ptr<Character> _hero;
 public:
 	MainMenuState(GameDataRef data);
 
@@ -26,15 +27,15 @@ public:
 	void MoveCharacter(sf::Vector2f pos2, float dt);
 
 	// Initializations
-	void Init();
+	void Init() override;
 	void InitButtons();
 	void InitCharacter();
 	
 	// Core methods
 	void HandleInput();
-	void Update(float dt);
+	void Update(float dt) override;
 	void UpdateButtons();
-	void Render(float dt);
+	void Render(float dt) override;
 
 };
 

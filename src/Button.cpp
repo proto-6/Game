@@ -84,7 +84,7 @@ void gm::Button::SetOrigin(sf::Vector2f coords)
 }
 
 
-const sf::Vector2f& gm::Button::GetSize()
+sf::Vector2f gm::Button::GetSize()
 {
     return sf::Vector2f(this->_rectangle.getSize().x + 5.f, this->_rectangle.getSize().y + 5.f);
 }
@@ -94,7 +94,7 @@ const sf::Vector2f& gm::Button::GetPosition()
     return this->_rectangle.getPosition();
 }
 
-unsigned int gm::Button::GetCornerPointCount()
+size_t gm::Button::GetCornerPointCount()
 {
     return this->_rectangle.getPointCount();
 }
@@ -124,6 +124,7 @@ ButtonName::Type gm::Button::GetButtonType()
     if (_text.getString() == "Play") return ButtonName::Type::Play;
     else if (_text.getString() == "Settings") return ButtonName::Type::Settings;
     else if (_text.getString() == "Exit") return ButtonName::Type::Exit;
+    else return ButtonName::Type::None;
 }
 
 void gm::Button::Hover(sf::Vector2f expected /*300, 100*/, sf::Vector2i mouse_pos, float speed)

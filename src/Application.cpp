@@ -24,10 +24,10 @@ void Application::Run()
 		new_time = this->_clock.getElapsedTime().asSeconds();
 		frame_time = new_time - current_time;
 
-		if (frame_time < 0.25f)
+		/*if (frame_time < 0.25f)
 		{
 			frame_time = 0.25f;
-		}
+		}*/
 
 		current_time = new_time;
 		accumulator += frame_time;
