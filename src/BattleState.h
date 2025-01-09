@@ -5,14 +5,15 @@
 #include "State.h"
 #include "GameData.h"
 #include "Character.h"
+#include "Map.h"
 
 class BattleState : public State
 {
 private:
 	GameDataRef _data;
 	std::shared_ptr<Character> _hero;
+	Map map;
 	sf::View view;
-	sf::CircleShape circle;
 
 	// Methods
 	void ProcessMovement(float dt);

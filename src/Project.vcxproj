@@ -149,6 +149,7 @@
     <ClCompile Include="GameMenuState.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="RoundedRectangleShape.cpp" />
     <ClCompile Include="SplashState.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="GameMenuState.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="RoundedRectangleShape.h" />
     <ClInclude Include="SplashState.h" />
     <ClInclude Include="State.h" />
