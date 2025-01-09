@@ -9,7 +9,7 @@ namespace Movement
 	enum class State
 	{
 		Idle,
-		Moving
+		Running
 	};
 }
 
@@ -18,7 +18,9 @@ class Character
 private:
 	sf::Sprite _hero;
 	Movement::State _state;
-	std::vector<std::shared_ptr<sf::Texture>> _animations;
+	std::vector<std::shared_ptr<sf::Texture>> _idle_animations;
+	std::vector<std::shared_ptr<sf::Texture>> _run_animations;
+
 	unsigned int _current_animation;
 	float _animation_interval;
 	float _elapsed_time;
@@ -29,7 +31,7 @@ public:
 	// Constructors
 	Character(AssetManager& manager);
 	Character& operator=(const Character& other);
-
+	void LoadAnimations(AssetManager& manager);
 
 	// Setters
 	void SetPosition(sf::Vector2f pos2);

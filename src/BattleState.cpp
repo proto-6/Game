@@ -6,22 +6,22 @@ void BattleState::ProcessMovement(float dt)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		this->_hero->SetDirection(-1, 0);
-		this->_hero->SetState(Movement::State::Moving);
+		this->_hero->SetState(Movement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		this->_hero->SetDirection(1, 0);
-		this->_hero->SetState(Movement::State::Moving);
+		this->_hero->SetState(Movement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		this->_hero->SetDirection(0, -1);
-		this->_hero->SetState(Movement::State::Moving);
+		this->_hero->SetState(Movement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		this->_hero->SetDirection(0, 1);
-		this->_hero->SetState(Movement::State::Moving);
+		this->_hero->SetState(Movement::State::Running);
 	}
 
 	double direction_x = this->_hero->GetDirection().x;
@@ -33,7 +33,7 @@ void BattleState::ProcessMovement(float dt)
 		direction_y /= std::sqrt(2);
 	}
 	this->_hero->Move(direction_x * dt * this->_hero->GetSpeed(), direction_y * dt * this->_hero->GetSpeed());
-	if (direction_x == 0 && direction_y)
+	if (direction_x == 0 && direction_y == 0)
 	{
 		this->_hero->SetState(Movement::State::Idle);
 	}
@@ -73,9 +73,8 @@ void BattleState::HandleInput(float dt)
 
 void BattleState::Update(float dt)
 {
-	
-	this->_hero->Update(dt);
 	this->ProcessMovement(dt);
+	this->_hero->Update(dt);
 	this->_hero->ClearDirection();
 	view.setCenter(this->_hero->GetPosition());
 }

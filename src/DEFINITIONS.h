@@ -22,7 +22,11 @@ namespace Texture
 		CharacterIdle0,
 		CharacterIdle1,
 		CharacterIdle2,
-		CharacterIdle3
+		CharacterIdle3,
+		CharacterRun0,
+		CharacterRun1,
+		CharacterRun2,
+		CharacterRun3
 	};
 }
 
