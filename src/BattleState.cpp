@@ -56,9 +56,7 @@ void BattleState::Init()
 	view.setCenter(0.f, 0.f);
 	view.setSize(sf::Vector2f(1920, 1080));
 	 
-	circle.setRadius(100);
-	circle.setFillColor(sf::Color::Red);
-	circle.setPosition(this->_hero->GetPosition());
+	map.LoadTiles();
 }
 
 void BattleState::HandleInput(float dt)
@@ -82,7 +80,7 @@ void BattleState::Update(float dt)
 void BattleState::Render(float dt)
 {
 	this->_data->window.clear(sf::Color(16, 16, 16));
-	this->_data->window.draw(circle);
+	this->_data->window.draw(map);
 	this->_data->window.setView(view);
 	this->_hero->Draw(&this->_data->window, dt);
 	
