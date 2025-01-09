@@ -13,7 +13,7 @@ Character::Character(AssetManager& manager)
 	_hero.setScale(1, 1);
 	_direction.x = 0.f;
 	_direction.y = 0.f;
-	_speed = 200.f;
+	_speed = 500.f;
 }
 
 Character& Character::operator=(const Character& other)
@@ -64,7 +64,7 @@ sf::Vector2f Character::GetScale() const
 	return this->_hero.getScale();
 }
 
-sf::Vector2f Character::GetDirection()
+sf::Vector2f Character::GetDirection() const
 {
 	return this->_direction;
 }
@@ -74,7 +74,7 @@ Movement::State Character::GetState() const
 	return this->_state;
 }
 
-float Character::GetSpeed()
+float Character::GetSpeed() const
 {
 	return this->_speed;
 }
@@ -90,7 +90,7 @@ void Character::Update(float dt)
 {
 	if (this->_state == Movement::State::Running)
 	{
-		_elapsed_time += dt / 1.8f;
+		_elapsed_time += dt * this->_speed / 800.f;
 	}
 	_elapsed_time += dt / 1.5;
 	if (_elapsed_time >= _animation_interval)
@@ -176,6 +176,8 @@ void Character::SetState(Movement::State state)
 {
 	this->_state = state;
 }
+
+
 
 
 

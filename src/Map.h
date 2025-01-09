@@ -4,17 +4,19 @@
 #include <vector>
 #include <random>
 
+#include "DEFINITIONS.h"
+
 
 class Map : public sf::Drawable, public sf::Transformable
 {
 private:
 	sf::VertexArray _vertices;
 	sf::Texture _tileset;
-	int _tile_size;
+
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 public:
 	Map();
-	bool LoadTiles();
+	bool LoadTiles(sf::Vector2u window_size);
 };
 

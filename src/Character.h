@@ -49,9 +49,9 @@ public:
 	// Getters
 	sf::Vector2f GetPosition() const { return _hero.getPosition(); };
 	sf::Vector2f GetScale() const;
-	sf::Vector2f GetDirection();
+	sf::Vector2f GetDirection() const;
 	Movement::State GetState() const;
-	float GetSpeed();
+	float GetSpeed() const;
 
 	// Core methods
 	void Draw(sf::RenderWindow* window, float dt);

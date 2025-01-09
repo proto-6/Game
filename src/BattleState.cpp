@@ -47,16 +47,12 @@ BattleState::BattleState(GameDataRef data, std::shared_ptr<Character>& hero)
 
 void BattleState::Init()
 {
-	this->_hero->SetScale(sf::Vector2f(3, 3)); // Size of character
-	this->_hero->SetPosition // Center of screen
-	(
-		_data->window.getSize().x / 2.f,
-		_data->window.getSize().y / 2.f
-	);
+	this->_hero->SetScale(sf::Vector2f(4, 4)); // Size of character
+	this->_hero->SetPosition(0.f, 0.f);
 	view.setCenter(0.f, 0.f);
 	view.setSize(sf::Vector2f(1920, 1080));
 	 
-	map.LoadTiles();
+	map.LoadTiles(this->_data->window.getSize());
 }
 
 void BattleState::HandleInput(float dt)

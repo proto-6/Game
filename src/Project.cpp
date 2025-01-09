@@ -29,33 +29,11 @@ int main()
 
 // TODO: :)
 // Urgency:
-// Movement and view are done, need to fix animation somehow working when pressing up or down arrow keys.
-// 
-// Game menu state:
-// Develop game state (for now just a dummy) to test how transition works -
-// 
-// Main menu state:
-// Make UI of main menu state +
-// Make functionality of main menu -
-// 
-// Game menu state:
-// Make game menu state -
-// Develop game menu UI -
-// Add functionality to game menu state -
-// 
-// Character state:
-// Make character state (think about efficient mechanism to store) -
-// Think about what character state needs ... -
-// 
+// Resize map when character is moving so he doesn't walk in emptiness
+// Can be done using position of character e.g. if character moved 64px (yes, tile is 16x16 but I scaled it by 4) 
+// to the right then call method in map class that resize map in that direction.
+// You can make 4 methods for all directions
 //
-//
-// DONE: :D
-// Developed game engine
-// Developer splash state
-// Would be goo to implement flexibility of splash state depending of game resolution
-// Created main menu state and implemented mechanism to move from state to state
-// Add Lerp function somewhere so I've got no bugs
-// Fixed hover on button breaking center point
-// Fix hover button getting value of all buttons in MainMenu state
+// 
 // 
 //
