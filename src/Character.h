@@ -4,7 +4,7 @@
 #include <vector>
 #include "GameData.h"
 
-namespace Movement
+namespace CharacterMovement
 {
 	enum class State
 	{
@@ -17,7 +17,7 @@ class Character
 {
 private:
 	sf::Sprite hero;
-	Movement::State state;
+	CharacterMovement::State state;
 	std::vector<std::shared_ptr<sf::Texture>> idle_animations;
 	std::vector<std::shared_ptr<sf::Texture>> run_animations;
 
@@ -44,20 +44,20 @@ public:
 	void SetDirection(float x, float y);
 	void SetDirection(sf::Vector2f direction);
 	void ClearDirection();
-	void SetState(Movement::State state) { this->state = state; }
+	void SetState(CharacterMovement::State state) { this->state = state; }
 	
 
 	// Getters
 	sf::Vector2f GetPosition() const { return hero.getPosition(); };
 	sf::Vector2f GetScale() const { return this->hero.getScale(); }
 	sf::Vector2f GetDirection() const { return this->direction; }
-	Movement::State GetState() const { return this->state; }
+	CharacterMovement::State GetState() const { return this->state; }
 	float GetSpeed() const { return this->speed; }
 	const sf::FloatRect& GetGlobalBounds();
 	
 
 	// Core methods
 	void Draw(sf::RenderWindow* window, float dt);
-	void Update(float dt);
+	void UpdateAnimation(float dt);
 };
 

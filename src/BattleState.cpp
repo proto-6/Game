@@ -7,22 +7,22 @@ void BattleState::ProcessMovement(float dt)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		this->hero->SetDirection(this->hero->GetPosition().x <= NEGATIVE_BORDER_X ? 0 : -1, 0);
-		this->hero->SetState(Movement::State::Running);
+		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		this->hero->SetDirection(this->hero->GetPosition().x >= POSITIVE_BORDER_X - this->hero->GetGlobalBounds().width ? 0 : 1, 0);
-		this->hero->SetState(Movement::State::Running);
+		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		this->hero->SetDirection(0, this->hero->GetPosition().y <= NEGATIVE_BORDER_Y - 24  ? 0 : -1); // ??? need to research this issue later (for later me -> I'm writing about "magical number")
-		this->hero->SetState(Movement::State::Running);
+		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		this->hero->SetDirection(0, this->hero->GetPosition().y >= POSITIVE_BORDER_Y - this->hero->GetGlobalBounds().height ? 0 : 1);
-		this->hero->SetState(Movement::State::Running);
+		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 	{
@@ -47,7 +47,7 @@ void BattleState::ProcessMovement(float dt)
 	
 	if (direction_x == 0 && direction_y == 0)
 	{
-		this->hero->SetState(Movement::State::Idle);
+		this->hero->SetState(CharacterMovement::State::Idle);
 	}
 }
 
@@ -58,10 +58,10 @@ void BattleState::UpdateView()
 	sf::Vector2f view_center = sf::Vector2f(this->hero->GetPosition().x + this->hero->GetGlobalBounds().width / 2.f, this->hero->GetPosition().y);
 
 
-	if (this->hero->GetPosition().x + half_view_x >= POSITIVE_BORDER_X)
+	if (this->hero->GetPosition().x + half_view_x + this->hero->GetGlobalBounds().width / 2.f >= POSITIVE_BORDER_X)
 		view_center.x = POSITIVE_BORDER_X - half_view_x;
 
-	else if (this->hero->GetPosition().x - half_view_x <= NEGATIVE_BORDER_X)
+	else if (this->hero->GetPosition().x - half_view_x + this->hero->GetGlobalBounds().width / 2.f  <= NEGATIVE_BORDER_X)
 		view_center.x = NEGATIVE_BORDER_X + half_view_x;
 	
 	if (this->hero->GetPosition().y + half_view_y >= POSITIVE_BORDER_Y)
@@ -75,7 +75,7 @@ void BattleState::UpdateView()
 	
 }
 
-BattleState::BattleState(GameDataRef data, std::shared_ptr<Character>& hero)
+BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
 	: data(data), hero(hero) 
 {
 
@@ -104,7 +104,7 @@ void BattleState::HandleInput(float dt)
 void BattleState::Update(float dt)
 {
 	this->ProcessMovement(dt);
-	this->hero->Update(dt);
+	this->hero->UpdateAnimation(dt);
 	this->hero->ClearDirection();
 	
 }

@@ -55,7 +55,7 @@ void Character::LoadAnimations(AssetManager& manager)
 	// Setting initial texture to a character
 	current_animation = 0;
 	hero.setTexture(*idle_animations[current_animation]);
-	state = Movement::State::Idle;
+	state = CharacterMovement::State::Idle;
 }
 
 
@@ -71,9 +71,9 @@ void Character::Draw(sf::RenderWindow* window, float dt)
 
 #include <iostream>
 
-void Character::Update(float dt)
+void Character::UpdateAnimation(float dt)
 {
-	if (this->state == Movement::State::Running)
+	if (this->state == CharacterMovement::State::Running)
 	{
 		elapsed_time += dt * this->speed / 800.f;
 	}
@@ -84,13 +84,13 @@ void Character::Update(float dt)
 
 		switch (state)
 		{
-		case Movement::State::Idle:
+		case CharacterMovement::State::Idle:
 			std::cout << "Idle" << std::endl;
 			current_animation = (current_animation + 1) % idle_animations.size(); // So vector doesn't overflow
 
 			this->hero.setTexture(*idle_animations[current_animation]); // Set hero texture to next one
 			break;
-		case Movement::State::Running:
+		case CharacterMovement::State::Running:
 			std::cout << "Running" << std::endl;
 			current_animation = (current_animation + 1) % run_animations.size(); // So vector doesn't overflow
 
@@ -119,6 +119,6 @@ void Character::ClearDirection()
 {
 	this->direction.x = 0.f;
 	this->direction.y = 0.f;
-	this->state = Movement::State::Idle;
+	this->state = CharacterMovement::State::Idle;
 }
 

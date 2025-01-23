@@ -27,7 +27,15 @@ namespace Texture
 		CharacterRun0,
 		CharacterRun1,
 		CharacterRun2,
-		CharacterRun3
+		CharacterRun3,
+		EnemyIdle0,
+		EnemyIdle1,
+		EnemyIdle2,
+		EnemyIdle3,
+		EnemyRun0,
+		EnemyRun1,
+		EnemyRun2,
+		EnemyRun3,
 	};
 }
 
