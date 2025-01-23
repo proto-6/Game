@@ -9,11 +9,11 @@
 class SplashState : public State
 {
 private:
-	GameDataRef _data;
+	GameDataRef data;
 	sf::Clock _clock;
 
 	sf::Sprite _logo;
-	sf::Text _text;
+	sf::Text text;
 public:
 	SplashState(GameDataRef data);
 

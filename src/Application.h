@@ -21,9 +21,9 @@ public:
 private:
 	// Variables
 	const float dt = 1.f / 60.f;
-	sf::Clock _clock;
+	sf::Clock clock;
 
-	GameDataRef _data;
+	GameDataRef data;
 
 };
 

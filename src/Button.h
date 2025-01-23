@@ -14,8 +14,8 @@ namespace gm
 class Button : public sf::Drawable
 {
 private:
-	sf::Text _text;
-	sf::RoundedRectangleShape _rectangle;
+	sf::Text text;
+	sf::RoundedRectangleShape rectangle;
 	sf::Vector2f original_size;
 	sf::Vector2f original_position;
 
@@ -32,7 +32,7 @@ public:
 	void SetSize(const sf::Vector2f& size);
 	void SetPosition(sf::Vector2f pos);
 	void SetPosition(float x, float y);
-	void SetFont(Font::Type font, GameDataRef _data);
+	void SetFont(Font::Type font, GameDataRef data);
 	void SetCornerPointCount(unsigned int count);
 	void SetCornerRadius(float radius);
 	void SetOrigin(sf::Vector2f coords);

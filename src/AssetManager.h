@@ -19,8 +19,8 @@ public:
 	sf::Font& GetFont(Font::Type name);
 
 private:
-	std::map<Texture::Type, sf::Texture> _textures;
-	std::map<Font::Type, sf::Font> _fonts;
+	std::map<Texture::Type, sf::Texture> textures;
+	std::map<Font::Type, sf::Font> fonts;
 
 };
 

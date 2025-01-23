@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
-#define SPLASH_STATE_SHOW_TIME 3.0f
+#define SPLASHstate_SHOW_TIME 3.0f
+#define TILE_SIZE 16
 
 
 namespace Font

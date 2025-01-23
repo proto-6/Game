@@ -10,16 +10,17 @@
 class BattleState : public State
 {
 private:
-	GameDataRef _data;
-	std::shared_ptr<Character> _hero;
+	GameDataRef data;
+	std::shared_ptr<Character> hero;
 	Map map;
 	sf::View view;
 
 	// Methods
 	void ProcessMovement(float dt);
-
+	void UpdateView();
 public:
 	BattleState(GameDataRef data, std::shared_ptr<Character>& hero);
+
 
 	// Initialization
 	void Init() override;
