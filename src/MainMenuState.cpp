@@ -5,7 +5,7 @@
 
 
 MainMenuState::MainMenuState(GameDataRef data) 
-	: _data(data), _hover_button_type(ButtonName::None)
+	: data(data), _hover_button_type(ButtonName::None)
 {
 	
 	
@@ -13,9 +13,8 @@ MainMenuState::MainMenuState(GameDataRef data)
 
 void MainMenuState::MoveCharacter(sf::Vector2f pos2, float dt)
 {
-	/*SetSize(original_size + speed * (hover_size - original_size));*/
-	sf::Vector2f new_pos = _hero->GetPosition() + (dt) * (pos2 - _hero->GetPosition());
-	_hero->SetPosition(new_pos);
+	sf::Vector2f new_pos = hero->GetPosition() + (dt) * (pos2 - hero->GetPosition());
+	hero->SetPosition(new_pos);
 }
 
 void MainMenuState::Init()
@@ -35,22 +34,22 @@ void MainMenuState::InitButtons()
 		if (this->_buttons.empty())
 		{
 			this->_buttons.push_back(std::move(button_name));
-			this->_buttons.back().SetFont(Font::PixeloidSans, _data);
+			this->_buttons.back().SetFont(Font::PixeloidSans, data);
 
 			this->_buttons.back().SetPosition
 			(
-				this->_data->window.getSize().x / 8.f - this->_buttons.back().GetSize().x / 8.f,
-				this->_data->window.getSize().y / 1.8f
+				this->data->window.getSize().x / 8.f - this->_buttons.back().GetSize().x / 8.f,
+				this->data->window.getSize().y / 1.8f
 			);
 		}
 		else
 		{
-			float x = this->_data->window.getSize().x / 8.f - this->_buttons.back().GetSize().x / 8.f;
+			float x = this->data->window.getSize().x / 8.f - this->_buttons.back().GetSize().x / 8.f;
 			float y = this->_buttons.back().GetPosition().y + this->_buttons.back().GetSize().y;
 			float gap = this->_buttons.back().GetSize().y / 4.5f;
 
 			this->_buttons.push_back(std::move(button_name));
-			this->_buttons.back().SetFont(Font::PixeloidSans, _data);
+			this->_buttons.back().SetFont(Font::PixeloidSans, data);
 
 			this->_buttons.back().SetPosition
 			(
@@ -66,8 +65,8 @@ void MainMenuState::InitButtons()
 
 void MainMenuState::InitCharacter()
 {
-	_hero = std::make_shared<Character>(Character(this->_data->assets));
-	_hero->SetScale(20, 20);
+	hero = std::make_shared<Character>(Character(this->data->assets));
+	hero->SetScale(20, 20);
 }
 
 
@@ -77,9 +76,9 @@ void MainMenuState::HandleInput(float dt)
 {
 	sf::Event ev;
 
-	while (_data->window.pollEvent(ev))
+	while (data->window.pollEvent(ev))
 	{
-		if (ev.type == sf::Event::Closed) this->_data->window.close();
+		if (ev.type == sf::Event::Closed) this->data->window.close();
 		else if (ev.type == sf::Event::MouseButtonReleased)
 		{
 			if (ev.mouseButton.button == sf::Mouse::Left)
@@ -87,8 +86,8 @@ void MainMenuState::HandleInput(float dt)
 				if (_hover_button_type == ButtonName::Play)
 				{
 					std::cout << "Play Button pressed" << std::endl;
-					// Changed from GameMenuState to BattleState (in debugging purposed)
-					_data->stack.AddState(StatePtr(new BattleState(_data, _hero)), true);
+					// Changed from GameMenuState to BattleState (in debugging purposes)
+					data->stack.AddState(StatePtr(new BattleState(data, hero)), true);
 				}
 				else if (_hover_button_type == ButtonName::Settings)
 				{
@@ -97,7 +96,7 @@ void MainMenuState::HandleInput(float dt)
 				else if (_hover_button_type == ButtonName::Exit)
 				{
 					std::cout << "Exit Button pressed" << std::endl;
-					this->_data->window.close();
+					this->data->window.close();
 				}
 				else if (_hover_button_type == ButtonName::None)
 				{
@@ -122,12 +121,12 @@ void MainMenuState::Update(float dt)
 	MoveCharacter(
 		sf::Vector2f
 		(
-			this->_data->window.getSize().x / (2/3.f),
-			this->_data->window.getSize().y / 3.f
+			this->data->window.getSize().x / (2/3.f),
+			this->data->window.getSize().y / 3.f
 		), 
 		dt);*/
-	MoveCharacter(sf::Vector2f(1220, 360), dt);
-	_hero->Update(dt);
+	MoveCharacter(sf::Vector2f(this->data->window.getSize().x / 3.f, this->data->window.getSize().y / 2.f), dt);
+	hero->Update(dt);
 	
 	
 }
@@ -136,17 +135,17 @@ void MainMenuState::UpdateButtons()
 {
 	for (auto& button : this->_buttons)
 	{
-		bool contains = button.GetGlobalBounds().contains(this->_data->window.mapPixelToCoords(sf::Mouse::getPosition(this->_data->window)));
+		bool contains = button.GetGlobalBounds().contains(this->data->window.mapPixelToCoords(sf::Mouse::getPosition(this->data->window)));
 
 		if (contains)
 		{
-			button.Hover(sf::Vector2f(305, 105), sf::Mouse::getPosition(this->_data->window), 0.01f);
+			button.Hover(sf::Vector2f(305, 105), sf::Mouse::getPosition(this->data->window), 0.01f);
 			_hover_button_type = button.GetButtonType();
 
 		}
 		else if (!contains)
 		{
-			button.Hover(sf::Vector2f(300, 100), sf::Mouse::getPosition(this->_data->window), 0.01f);
+			button.Hover(sf::Vector2f(300, 100), sf::Mouse::getPosition(this->data->window), 0.01f);
 
 			if (_hover_button_type == button.GetButtonType())
 			{
@@ -160,15 +159,15 @@ void MainMenuState::UpdateButtons()
 
 void MainMenuState::Render(float dt)
 {
-	this->_data->window.clear(sf::Color(16,16,16));
+	this->data->window.clear(sf::Color(16,16,16));
 
-	_hero->Draw(&this->_data->window, dt);
+	hero->Draw(&this->data->window, dt);
 	for (auto& button : this->_buttons)
 	{
-		this->_data->window.draw(button);
+		this->data->window.draw(button);
 		
 	}
 	
 
-	_data->window.display();
+	data->window.display();
 }

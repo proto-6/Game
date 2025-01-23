@@ -10,7 +10,7 @@
 class GameMenuState : public State
 {
 private:
-	GameDataRef _data;
+	GameDataRef data;
 	ButtonName::Type _hover_button_type;
 
 	std::vector<gm::Button> _buttons;

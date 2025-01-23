@@ -4,33 +4,33 @@
 #include <sstream>
 #include <cassert>
 
-SplashState::SplashState(GameDataRef data) : _data(data)
+SplashState::SplashState(GameDataRef data) : data(data)
 {
 	
 }
 
 void SplashState::Init()
 {
-	_data->assets.LoadFont(Font::Type::PixeloidSans, "../resource/fonts/PixeloidSans.ttf");
-	_data->assets.LoadTexture(Texture::Type::Blue_Flame, "../resource/assets/blue-flame.png");
+	data->assets.LoadFont(Font::Type::PixeloidSans, "../resource/fonts/PixeloidSans.ttf");
+	data->assets.LoadTexture(Texture::Type::Blue_Flame, "../resource/assets/blue-flame.png");
 
-	_logo.setTexture(_data->assets.GetTexture(Texture::Type::Blue_Flame));
+	_logo.setTexture(data->assets.GetTexture(Texture::Type::Blue_Flame));
 	_logo.setScale(0.8f, 0.8f);
 	_logo.setPosition
 	(
-		this->_data->window.getSize().x/2 - _logo.getGlobalBounds().width / 2,
-		this->_data->window.getSize().y/2 - _logo.getGlobalBounds().height / 1.3f
+		this->data->window.getSize().x/2 - _logo.getGlobalBounds().width / 2,
+		this->data->window.getSize().y/2 - _logo.getGlobalBounds().height / 1.3f
 	);
 	
-	_text.setFont(_data->assets.GetFont(Font::Type::PixeloidSans));
-	_text.setString("Magic Tinkerer");
-	_text.setCharacterSize(72);
-	_text.setFillColor(sf::Color::White);
-	_text.setOrigin(_text.getGlobalBounds().getSize() / 2.f);
-	_text.setPosition
+	text.setFont(data->assets.GetFont(Font::Type::PixeloidSans));
+	text.setString("Magic Tinkerer");
+	text.setCharacterSize(72);
+	text.setFillColor(sf::Color::White);
+	text.setOrigin(text.getGlobalBounds().getSize() / 2.f);
+	text.setPosition
 	(
-		this->_data->window.getSize().x / 2.f,
-			(this->_data->window.getSize().y / 2.f)  + this->_text.getGlobalBounds().height * 2.f
+		this->data->window.getSize().x / 2.f,
+			(this->data->window.getSize().y / 2.f)  + this->text.getGlobalBounds().height * 2.f
 	); // Pure magic
 }
 
@@ -38,11 +38,11 @@ void SplashState::HandleInput(float dt)
 {
 	sf::Event ev;
 
-	while (_data->window.pollEvent(ev))
+	while (data->window.pollEvent(ev))
 	{
 		if (ev.type == sf::Event::Closed)
 		{
-			_data->window.close();
+			data->window.close();
 			
 		}
 	}
@@ -50,18 +50,18 @@ void SplashState::HandleInput(float dt)
 
 void SplashState::Update(float dt)
 {
-	if (_clock.getElapsedTime().asSeconds() > SPLASH_STATE_SHOW_TIME)
+	if (_clock.getElapsedTime().asSeconds() > SPLASHstate_SHOW_TIME)
 	{
-		_data->stack.AddState(StatePtr(new MainMenuState(_data)), true);
+		data->stack.AddState(StatePtr(new MainMenuState(data)), true);
 	} 
 }
 
 void SplashState::Render(float dt)
 {
-	_data->window.clear();
+	data->window.clear();
 	
-	_data->window.draw(_logo);
-	_data->window.draw(_text);
+	data->window.draw(_logo);
+	data->window.draw(text);
 
-	_data->window.display();
+	data->window.display();
 }

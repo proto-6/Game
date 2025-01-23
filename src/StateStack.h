@@ -20,8 +20,8 @@ public:
 	StatePtr& GetActiveState();
 
 private:
-	std::stack<StatePtr> _states;
-	StatePtr _new_state;
+	std::stack<StatePtr> states;
+	StatePtr _newstate;
 
 	bool _is_removing;
 	bool _is_adding;

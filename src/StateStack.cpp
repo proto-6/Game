@@ -5,7 +5,7 @@ void StateStack::AddState(StatePtr newState, bool is_replacing)
 	this->_is_adding = true;
 	this->_is_replacing = is_replacing;
 
-	this->_new_state = std::move(newState);
+	this->_newstate = std::move(newState);
 
 
 }
@@ -17,13 +17,13 @@ void StateStack::RemoveState()
 
 void StateStack::ProcessStateChanges()
 {
-	if (this->_is_removing && !this->_states.empty())
+	if (this->_is_removing && !this->states.empty())
 	{
-		this->_states.pop();
+		this->states.pop();
 
-		if (!this->_states.empty())
+		if (!this->states.empty())
 		{
-			this->_states.top()->Resume();
+			this->states.top()->Resume();
 		}
 
 		this->_is_removing = false;
@@ -31,20 +31,20 @@ void StateStack::ProcessStateChanges()
 
 	if (this->_is_adding)
 	{
-		if (!this->_states.empty())
+		if (!this->states.empty())
 		{
 			if (this->_is_replacing)
 			{
-				this->_states.pop();
+				this->states.pop();
 			}
 			else
 			{
-				this->_states.top()->Pause();
+				this->states.top()->Pause();
 			}
 		}
 
-		this->_states.push(std::move(this->_new_state));
-		this->_states.top()->Init();
+		this->states.push(std::move(this->_newstate));
+		this->states.top()->Init();
 		this->_is_adding = false;
 
 		
@@ -53,6 +53,6 @@ void StateStack::ProcessStateChanges()
 
 StatePtr& StateStack::GetActiveState()
 {
-	return this->_states.top();
+	return this->states.top();
 
 }

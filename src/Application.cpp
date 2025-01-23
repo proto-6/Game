@@ -5,23 +5,23 @@
 
 Application::Application(int width, int heigh, std::string title)
 {
-	_data = std::make_shared<GameData>();
-	_data->window.create(sf::VideoMode(width, heigh), title, sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize | sf::Style::Fullscreen);
-	_data->stack.AddState(StatePtr(new SplashState(this->_data)), false);
+	data = std::make_shared<GameData>();
+	data->window.create(sf::VideoMode(width, heigh), title, sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize | sf::Style::Fullscreen);
+	data->stack.AddState(StatePtr(new SplashState(this->data)), false);
 }
 
 void Application::Run()
 {
 	float new_time, frame_time, interpolation;
 
-	float current_time = this->_clock.getElapsedTime().asSeconds();
+	float current_time = this->clock.getElapsedTime().asSeconds();
 	float accumulator = 0.f;
 	
-	while (this->_data->window.isOpen())
+	while (this->data->window.isOpen())
 	{
-		this->_data->stack.ProcessStateChanges();
+		this->data->stack.ProcessStateChanges();
 
-		new_time = this->_clock.getElapsedTime().asSeconds();
+		new_time = this->clock.getElapsedTime().asSeconds();
 		frame_time = new_time - current_time;
 
 		/*if (frame_time < 0.25f)
@@ -34,14 +34,14 @@ void Application::Run()
 
 		while (accumulator >= dt)
 		{
-			this->_data->stack.GetActiveState()->HandleInput(dt);
-			this->_data->stack.GetActiveState()->Update(dt);
+			this->data->stack.GetActiveState()->HandleInput(dt);
+			this->data->stack.GetActiveState()->Update(dt);
 			
 			accumulator -= dt;
 		}
 
 		interpolation = accumulator / dt;
-		this->_data->stack.GetActiveState()->Render(interpolation);
+		this->data->stack.GetActiveState()->Render(interpolation);
 	}
 
 }
