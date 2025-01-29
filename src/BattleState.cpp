@@ -1,28 +1,29 @@
 #include "BattleState.h"
 #include <iostream>
 
+
 void BattleState::ProcessMovement(float dt)
 {
 	float zoom = 1.f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		this->hero->SetDirection(this->hero->GetPosition().x <= NEGATIVE_BORDER_X ? 0 : -1, 0);
-		this->hero->SetState(Movement::State::Running);
+		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		this->hero->SetDirection(this->hero->GetPosition().x >= POSITIVE_BORDER_X - this->hero->GetGlobalBounds().width ? 0 : 1, 0);
-		this->hero->SetState(Movement::State::Running);
+		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		this->hero->SetDirection(0, this->hero->GetPosition().y <= NEGATIVE_BORDER_Y - 24  ? 0 : -1); // ??? need to research this issue later (for later me -> I'm writing about "magical number")
-		this->hero->SetState(Movement::State::Running);
+		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		this->hero->SetDirection(0, this->hero->GetPosition().y >= POSITIVE_BORDER_Y - this->hero->GetGlobalBounds().height ? 0 : 1);
-		this->hero->SetState(Movement::State::Running);
+		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 	{
@@ -47,7 +48,31 @@ void BattleState::ProcessMovement(float dt)
 	
 	if (direction_x == 0 && direction_y == 0)
 	{
-		this->hero->SetState(Movement::State::Idle);
+		this->hero->SetState(CharacterMovement::State::Idle);
+	}
+}
+
+void BattleState::UpdateEnemyPosition(float dt)
+{
+	for (auto& enemy : enemies)
+	{
+		enemy->UpdateMovement(this->hero->GetPosition(), dt);
+	}
+}
+
+void BattleState::UpdateEnemyAnimation(float dt)
+{
+	for (auto& enemy : enemies)
+	{
+		enemy->UpdateAnimation(dt);
+	}
+}
+
+void BattleState::DrawEnemy(float dt)
+{
+	for (auto& enemy : enemies)
+	{
+		enemy->Draw(&this->data->window, dt);
 	}
 }
 
@@ -58,10 +83,10 @@ void BattleState::UpdateView()
 	sf::Vector2f view_center = sf::Vector2f(this->hero->GetPosition().x + this->hero->GetGlobalBounds().width / 2.f, this->hero->GetPosition().y);
 
 
-	if (this->hero->GetPosition().x + half_view_x >= POSITIVE_BORDER_X)
+	if (this->hero->GetPosition().x + half_view_x + this->hero->GetGlobalBounds().width / 2.f >= POSITIVE_BORDER_X)
 		view_center.x = POSITIVE_BORDER_X - half_view_x;
 
-	else if (this->hero->GetPosition().x - half_view_x <= NEGATIVE_BORDER_X)
+	else if (this->hero->GetPosition().x - half_view_x + this->hero->GetGlobalBounds().width / 2.f  <= NEGATIVE_BORDER_X)
 		view_center.x = NEGATIVE_BORDER_X + half_view_x;
 	
 	if (this->hero->GetPosition().y + half_view_y >= POSITIVE_BORDER_Y)
@@ -75,8 +100,8 @@ void BattleState::UpdateView()
 	
 }
 
-BattleState::BattleState(GameDataRef data, std::shared_ptr<Character>& hero)
-	: data(data), hero(hero) 
+BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
+	: data(data), hero(hero), rng(std::random_device{}())
 {
 
 }
@@ -87,8 +112,10 @@ void BattleState::Init()
 	this->hero->SetPosition(0.f, 0.f);
 	view.setCenter(0.f, 0.f);
 	view.setSize(sf::Vector2f(1920, 1080));
-	 
+	this->enemy_spawnrate = 2000.f;
+	time_elapsed.restart();
 	map.LoadTiles(this->data->window.getSize());
+
 }
 
 void BattleState::HandleInput(float dt)
@@ -103,20 +130,29 @@ void BattleState::HandleInput(float dt)
 
 void BattleState::Update(float dt)
 {
+
 	this->ProcessMovement(dt);
-	this->hero->Update(dt);
+
+	std::cout << time_elapsed.getElapsedTime().asMilliseconds() << std::endl;
+	if (static_cast<unsigned int>(time_elapsed.getElapsedTime().asMilliseconds()) > this->enemies.size() * enemy_spawnrate)
+	{
+		this->enemies.push_back(std::make_shared<Enemy>(this->data->assets, rng));
+	}
+
+	this->hero->UpdateAnimation(dt);
 	this->hero->ClearDirection();
-	
+	UpdateEnemyPosition(dt);
+	UpdateEnemyAnimation(dt);
 }
 
 void BattleState::Render(float dt)
 {
 	this->data->window.clear(sf::Color(16, 16, 16));
 	this->data->window.draw(map);
-	UpdateView();
-	this->data->window.setView(view);
 	this->hero->Draw(&this->data->window, dt);
-	
+	DrawEnemy(dt);
+	UpdateView(); // It's here cause smoother camera movement
+	this->data->window.setView(view); // Same ^
 	
 
 	this->data->window.display();
