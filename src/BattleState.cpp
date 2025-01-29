@@ -1,6 +1,7 @@
 #include "BattleState.h"
 #include <iostream>
 
+
 void BattleState::ProcessMovement(float dt)
 {
 	float zoom = 1.f;
@@ -51,6 +52,30 @@ void BattleState::ProcessMovement(float dt)
 	}
 }
 
+void BattleState::UpdateEnemyPosition(float dt)
+{
+	for (auto& enemy : enemies)
+	{
+		enemy->UpdateMovement(this->hero->GetPosition(), dt);
+	}
+}
+
+void BattleState::UpdateEnemyAnimation(float dt)
+{
+	for (auto& enemy : enemies)
+	{
+		enemy->UpdateAnimation(dt);
+	}
+}
+
+void BattleState::DrawEnemy(float dt)
+{
+	for (auto& enemy : enemies)
+	{
+		enemy->Draw(&this->data->window, dt);
+	}
+}
+
 void BattleState::UpdateView()
 {
 	const float half_view_x = this->view.getSize().x / 2.f;
@@ -76,7 +101,7 @@ void BattleState::UpdateView()
 }
 
 BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
-	: data(data), hero(hero) 
+	: data(data), hero(hero), rng(std::random_device{}())
 {
 
 }
@@ -87,8 +112,10 @@ void BattleState::Init()
 	this->hero->SetPosition(0.f, 0.f);
 	view.setCenter(0.f, 0.f);
 	view.setSize(sf::Vector2f(1920, 1080));
-	 
+	this->enemy_spawnrate = 2000.f;
+	time_elapsed.restart();
 	map.LoadTiles(this->data->window.getSize());
+
 }
 
 void BattleState::HandleInput(float dt)
@@ -103,20 +130,29 @@ void BattleState::HandleInput(float dt)
 
 void BattleState::Update(float dt)
 {
+
 	this->ProcessMovement(dt);
+
+	std::cout << time_elapsed.getElapsedTime().asMilliseconds() << std::endl;
+	if (static_cast<unsigned int>(time_elapsed.getElapsedTime().asMilliseconds()) > this->enemies.size() * enemy_spawnrate)
+	{
+		this->enemies.push_back(std::make_shared<Enemy>(this->data->assets, rng));
+	}
+
 	this->hero->UpdateAnimation(dt);
 	this->hero->ClearDirection();
-	
+	UpdateEnemyPosition(dt);
+	UpdateEnemyAnimation(dt);
 }
 
 void BattleState::Render(float dt)
 {
 	this->data->window.clear(sf::Color(16, 16, 16));
 	this->data->window.draw(map);
-	UpdateView();
-	this->data->window.setView(view);
 	this->hero->Draw(&this->data->window, dt);
-	
+	DrawEnemy(dt);
+	UpdateView(); // It's here cause smoother camera movement
+	this->data->window.setView(view); // Same ^
 	
 
 	this->data->window.display();

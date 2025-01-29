@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <vector>
+#include <random>
 
 #include "State.h"
 #include "GameData.h"
@@ -13,8 +14,12 @@ class BattleState : public State
 {
 private:
 	GameDataRef data;
+	std::mt19937 rng;
+	sf::Clock time_elapsed;
+	float enemy_spawnrate;
 	std::shared_ptr<Character> hero;
 	std::vector<std::shared_ptr<Enemy>> enemies;
+	
 
 	Map map;
 	sf::View view;
@@ -22,6 +27,11 @@ private:
 	// Methods
 	void ProcessMovement(float dt);
 	void UpdateView();
+
+	// Enemies methods
+	void UpdateEnemyPosition(float dt);
+	void UpdateEnemyAnimation(float dt);
+	void DrawEnemy(float dt);
 public:
 	BattleState(GameDataRef data, std::shared_ptr<Character> hero);
 
