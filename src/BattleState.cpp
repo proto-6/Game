@@ -1,5 +1,4 @@
 #include "BattleState.h"
-#include <iostream>
 
 
 void BattleState::ProcessMovement(float dt)
@@ -101,7 +100,7 @@ void BattleState::UpdateView()
 }
 
 BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
-	: data(data), hero(hero), rng(std::random_device{}())
+	: data(data), hero(hero), rng(std::random_device{}()), enemy_spawnrate(0.f)
 {
 
 }
@@ -133,7 +132,6 @@ void BattleState::Update(float dt)
 
 	this->ProcessMovement(dt);
 
-	std::cout << time_elapsed.getElapsedTime().asMilliseconds() << std::endl;
 	if (static_cast<unsigned int>(time_elapsed.getElapsedTime().asMilliseconds()) > this->enemies.size() * enemy_spawnrate)
 	{
 		this->enemies.push_back(std::make_shared<Enemy>(this->data->assets, rng));

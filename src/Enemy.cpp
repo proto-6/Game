@@ -4,18 +4,37 @@
 
 void Enemy::RandomizePosition(std::mt19937& rng)
 {
-	std::uniform_real_distribution<float> dist(-500.f, 500.f);
+	std::uniform_real_distribution<float> dist_x(-2420.f, 2420.f);
+	float expected_x = dist_x(rng);
+	sf::Vector2f pos;
+	if (expected_x >= 1920.f || expected_x <= -1920.f)
+	{
+		std::uniform_real_distribution<float> dist_y(-1580.f, 1580.f);
+		pos = { expected_x, dist_y(rng) };
+	}
+	else
+	{
+		/*std::uniform_real_distribution<float> dist_y(-1580.f, 1580.f);*/
+		std::uniform_real_distribution<float> dist_y(-500.f, 500.f);
+		float expected_y = dist_y(rng);
+		expected_y = expected_y > 0 ? expected_y + 1080.f : expected_y - 1080.f;
+		pos = { expected_x, expected_y };
+	}
+	
+	
 
-	sf::Vector2f pos(dist(rng), dist(rng));
 
-	// So enemies spawn outside of view
-	if (pos.x > 0) pos.x += 1920.f; 
-	else if (pos.x <= 0) pos.x -= 1920.f;
-	if (pos.y > 0) pos.y += 1080.f;
-	else if (pos.y <= 0) pos.y -= 1080.f;
 
-	if (std::abs(pos.x) > 3840.f) pos.x = -pos.x;
-	if (std::abs(pos.y) > 2240.f) pos.y = -pos.y;
+
+
+	//// So enemies spawn outside of view
+	//if (pos.x > 0) pos.x += 1920.f; 
+	//else if (pos.x <= 0) pos.x -= 1920.f;
+	//if (pos.y > 0) pos.y += 1080.f;
+	//else if (pos.y <= 0) pos.y -= 1080.f;
+
+	//if (std::abs(pos.x) > 3840.f) pos.x = -pos.x;
+	//if (std::abs(pos.y) > 2240.f) pos.y = -pos.y;
 
 	SetPosition(pos);
 }
