@@ -19,6 +19,7 @@ private:
 	float enemy_spawnrate;
 	std::shared_ptr<Character> hero;
 	std::vector<std::shared_ptr<Enemy>> enemies;
+	sf::Vector2f velocity;
 	
 
 	Map map;

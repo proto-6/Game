@@ -5,24 +5,30 @@
 void BattleState::ProcessMovement(float dt)
 {
 	float zoom = 1.f;
+
+	sf::Vector2f acceleration;
+
+	// adjust this at will
+	const float dAcc = 0.3f;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		this->hero->SetDirection(this->hero->GetPosition().x <= NEGATIVE_BORDER_X ? 0 : -1, 0);
+		acceleration.x -= dAcc;
 		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		this->hero->SetDirection(this->hero->GetPosition().x >= POSITIVE_BORDER_X - this->hero->GetGlobalBounds().width ? 0 : 1, 0);
+		acceleration.x += dAcc;
 		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		this->hero->SetDirection(0, this->hero->GetPosition().y <= NEGATIVE_BORDER_Y - 24  ? 0 : -1); // ??? need to research this issue later (for later me -> I'm writing about "magical number")
+		acceleration.y -= dAcc;
 		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		this->hero->SetDirection(0, this->hero->GetPosition().y >= POSITIVE_BORDER_Y - this->hero->GetGlobalBounds().height ? 0 : 1);
+		acceleration.y += dAcc;
 		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
@@ -30,26 +36,11 @@ void BattleState::ProcessMovement(float dt)
 		zoom = 3.5f;
 	}
 
-	
+	velocity += acceleration;
 
-	double direction_x = this->hero->GetDirection().x;
-	double direction_y = this->hero->GetDirection().y;
-	
-	if (direction_x != 0. && direction_y != 0.)
-	{
-		direction_x /= std::sqrt(2);
-		direction_y /= std::sqrt(2);
-	}
-	
+	velocity = 0.95f * velocity;
 
-	
-	this->hero->Move(static_cast<float>(direction_x) * dt * this->hero->GetSpeed() * zoom, static_cast<float>(direction_y) * dt * this->hero->GetSpeed() * zoom);
-	
-	
-	if (direction_x == 0 && direction_y == 0)
-	{
-		this->hero->SetState(CharacterMovement::State::Idle);
-	}
+	this->hero->Move(velocity);
 }
 
 void BattleState::UpdateEnemyPosition(float dt)
