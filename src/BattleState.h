@@ -9,39 +9,40 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Map.h"
+#include "Timer.h"
 
 class BattleState : public State
 {
 private:
-	GameDataRef data;
-	std::mt19937 rng;
-	sf::Clock time_elapsed;
-	float enemy_spawnrate;
-	std::shared_ptr<Character> hero;
-	std::vector<std::shared_ptr<Enemy>> enemies;
-	
+    Map map;
+    Timer timer;
+    sf::View view;
+    GameDataRef data;
+    std::mt19937 rng;
+    sf::Clock time_elapsed;
 
-	Map map;
-	sf::View view;
+    // Entities
+    float enemy_spawnrate;
+    std::shared_ptr<Character> hero;
+    std::vector<std::shared_ptr<Enemy>> enemies;
 
-	// Methods
-	void ProcessMovement(float dt);
-	void UpdateView();
+    // Methods
+    void ProcessMovement(float dt);
+    void UpdateView();
 
-	// Enemies methods
-	void UpdateEnemyPosition(float dt);
-	void UpdateEnemyAnimation(float dt);
-	void DrawEnemy(float dt);
+    // Enemies methods
+    void UpdateEnemyPosition(float dt);
+    void UpdateEnemyAnimation(float dt);
+    void DrawEnemy(float dt);
+    void DrawTimer();
 public:
-	BattleState(GameDataRef data, std::shared_ptr<Character> hero);
+    BattleState(GameDataRef data, std::shared_ptr<Character> hero);
 
+    // Initialization
+    void Init() override;
 
-	// Initialization
-	void Init() override;
-
-	// Core methods
-	void HandleInput(float dt) override;
-	void Update(float dt) override;
-	void Render(float dt) override;
+    // Core methods
+    void HandleInput(float dt) override;
+    void Update(float dt) override;
+    void Render(float dt) override;
 };
-

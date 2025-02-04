@@ -2,6 +2,8 @@
 #include <memory>
 #define SPLASHstate_SHOW_TIME 3.0f
 #define TILE_SIZE 16
+#define SCREEN_WIDTH 1920.f
+#define SCREEN_HEIGHT 1080.f
 
 
 namespace Font

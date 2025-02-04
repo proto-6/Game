@@ -16,7 +16,7 @@ void BattleState::ProcessMovement(float dt)
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		this->hero->SetDirection(0, this->hero->GetPosition().y <= NEGATIVE_BORDER_Y - 24  ? 0 : -1); // ??? need to research this issue later (for later me -> I'm writing about "magical number")
+		this->hero->SetDirection(0, this->hero->GetPosition().y <= NEGATIVE_BORDER_Y - 24 ? 0 : -1); // ??? need to research this issue later (for later me -> I'm writing about "magical number")
 		this->hero->SetState(CharacterMovement::State::Running);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
@@ -29,22 +29,22 @@ void BattleState::ProcessMovement(float dt)
 		zoom = 3.5f;
 	}
 
-	
+
 
 	double direction_x = this->hero->GetDirection().x;
 	double direction_y = this->hero->GetDirection().y;
-	
+
 	if (direction_x != 0. && direction_y != 0.)
 	{
 		direction_x /= std::sqrt(2);
 		direction_y /= std::sqrt(2);
 	}
-	
 
-	
+
+
 	this->hero->Move(static_cast<float>(direction_x) * dt * this->hero->GetSpeed() * zoom, static_cast<float>(direction_y) * dt * this->hero->GetSpeed() * zoom);
-	
-	
+
+
 	if (direction_x == 0 && direction_y == 0)
 	{
 		this->hero->SetState(CharacterMovement::State::Idle);
@@ -75,6 +75,12 @@ void BattleState::DrawEnemy(float dt)
 	}
 }
 
+void BattleState::DrawTimer()
+{
+	/*this->data->window.setView(this->data->window.getDefaultView());*/
+	this->timer.Draw(this->data->window);
+}
+
 void BattleState::UpdateView()
 {
 	const float half_view_x = this->view.getSize().x / 2.f;
@@ -82,21 +88,21 @@ void BattleState::UpdateView()
 	sf::Vector2f view_center = sf::Vector2f(this->hero->GetPosition().x + this->hero->GetGlobalBounds().width / 2.f, this->hero->GetPosition().y);
 
 
-	if (this->hero->GetPosition().x + half_view_x + this->hero->GetGlobalBounds().width / 2.f >= POSITIVE_BORDER_X)
+	if (this->hero->GetPosition().x + half_view_x + this->hero->GetGlobalBounds().width >= POSITIVE_BORDER_X)
 		view_center.x = POSITIVE_BORDER_X - half_view_x;
 
-	else if (this->hero->GetPosition().x - half_view_x + this->hero->GetGlobalBounds().width / 2.f  <= NEGATIVE_BORDER_X)
+	else if (this->hero->GetPosition().x - half_view_x + this->hero->GetGlobalBounds().width <= NEGATIVE_BORDER_X)
 		view_center.x = NEGATIVE_BORDER_X + half_view_x;
-	
+
 	if (this->hero->GetPosition().y + half_view_y >= POSITIVE_BORDER_Y)
 		view_center.y = POSITIVE_BORDER_Y - half_view_y;
-	
+
 	else if (this->hero->GetPosition().y - half_view_y <= NEGATIVE_BORDER_Y)
 		view_center.y = NEGATIVE_BORDER_Y + half_view_y;
 
 	view.setCenter(view_center);
-	
-	
+
+
 }
 
 BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
@@ -114,7 +120,7 @@ void BattleState::Init()
 	this->enemy_spawnrate = 2000.f;
 	time_elapsed.restart();
 	map.LoadTiles(this->data->window.getSize());
-
+	timer = Timer(this->data->assets);
 }
 
 void BattleState::HandleInput(float dt)
@@ -123,13 +129,14 @@ void BattleState::HandleInput(float dt)
 
 	while (this->data->window.pollEvent(ev))
 	{
-		if (ev.type == sf::Event::Closed) this->data->window.close();	
+		if (ev.type == sf::Event::Closed) this->data->window.close();
 	}
 }
 
 void BattleState::Update(float dt)
 {
-
+	this->timer.Update();
+	UpdateView(); // It's here cause smoother camera movement
 	this->ProcessMovement(dt);
 
 	if (static_cast<unsigned int>(time_elapsed.getElapsedTime().asMilliseconds()) > this->enemies.size() * enemy_spawnrate)
@@ -149,9 +156,11 @@ void BattleState::Render(float dt)
 	this->data->window.draw(map);
 	this->hero->Draw(&this->data->window, dt);
 	DrawEnemy(dt);
-	UpdateView(); // It's here cause smoother camera movement
+
+	this->timer.Draw(this->data->window);
 	this->data->window.setView(view); // Same ^
-	
+
 
 	this->data->window.display();
 }
+
