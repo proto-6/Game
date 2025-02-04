@@ -11,8 +11,8 @@ Character::Character(AssetManager& manager)
 	animation_interval = 0.2f;
 	elapsed_time = 0.f;
 	hero.setScale(1, 1);
-	direction.x = 0.f;
-	direction.y = 0.f;
+	velocity.x = 0.f;
+	velocity.y = 0.f;
 	speed = 500.f;
 }
 
@@ -103,22 +103,58 @@ void Character::UpdateAnimation(float dt)
 	}
 }
 
+void Character::UpdateMovement(float dt)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		this->velocity.x += -this->speed * dt;
+		SetState(CharacterMovement::State::Running);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		this->velocity.x += this->speed * dt;
+		SetState(CharacterMovement::State::Running);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		this->velocity.y += -this->speed * dt;
+		SetState(CharacterMovement::State::Running);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		this->velocity.y += this->speed * dt;
+		SetState(CharacterMovement::State::Running);
+	}
+	if (static_cast<int>(velocity.x) == 0 && static_cast<int>(velocity.y) == 0)
+	{
+		SetState(CharacterMovement::State::Idle);
+	}
+
+	if (static_cast<int>(velocity.x) != 0 && static_cast<int>(velocity.y) != 0)
+	{
+		this->velocity.x /= std::sqrt(2);
+		this->velocity.y /= std::sqrt(2);
+	}
+
+	Move(this->velocity);
+}
+
 void Character::SetDirection(float x, float y)
 {
-	this->direction.x += x;
-	this->direction.y += y;
+	this->velocity.x += x;
+	this->velocity.y += y;
 }
 
 void Character::SetDirection(sf::Vector2f direction)
 {
-	this->direction.x += direction.x;
-	this->direction.y += direction.y;
+	this->velocity.x += direction.x;
+	this->velocity.y += direction.y;
 }
 
 void Character::ClearDirection()
 {
-	this->direction.x = 0.f;
-	this->direction.y = 0.f;
+	this->velocity.x = 0.f;
+	this->velocity.y = 0.f;
 	this->state = CharacterMovement::State::Idle;
 }
 

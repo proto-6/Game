@@ -1,9 +1,4 @@
 #pragma once
-#define NEGATIVE_BORDER_X -3840
-#define POSITIVE_BORDER_X 3840
-#define NEGATIVE_BORDER_Y -2240
-#define POSITIVE_BORDER_Y 2240
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <random>

@@ -27,8 +27,7 @@ private:
     std::vector<std::shared_ptr<Enemy>> enemies;
 
     // Methods
-    void ProcessMovement(float dt);
-    void UpdateView();
+    void UpdateView(float dt);
 
     // Enemies methods
     void UpdateEnemyPosition(float dt);

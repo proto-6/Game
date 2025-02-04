@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include "GameData.h"
+#include "DEFINITIONS.h"
 
 namespace CharacterMovement
 {
@@ -24,7 +25,7 @@ private:
 	unsigned int current_animation;
 	float animation_interval;
 	float elapsed_time;
-	sf::Vector2f direction; // Direction in x and y directions (positive directions are right and down, negative are opposite)
+	sf::Vector2f velocity;
 	float speed;
 
 public:
@@ -50,7 +51,7 @@ public:
 	// Getters
 	sf::Vector2f GetPosition() const { return hero.getPosition(); };
 	sf::Vector2f GetScale() const { return this->hero.getScale(); }
-	sf::Vector2f GetDirection() const { return this->direction; }
+	sf::Vector2f GetDirection() const { return this->velocity; }
 	CharacterMovement::State GetState() const { return this->state; }
 	float GetSpeed() const { return this->speed; }
 	const sf::FloatRect& GetGlobalBounds();
@@ -59,5 +60,6 @@ public:
 	// Core methods
 	void Draw(sf::RenderWindow* window, float dt);
 	void UpdateAnimation(float dt);
+	void UpdateMovement(float dt);
 };
 
