@@ -7,12 +7,12 @@ Character::Character(AssetManager& manager)
 	LoadAnimations(manager);
 	
 	
-	hero.setPosition(sf::Vector2f(0, 0));
+	entity.setPosition(sf::Vector2f(0, 0));
 	animation_interval = 0.2f;
 	elapsed_time = 0.f;
-	hero.setScale(1, 1);
-	direction.x = 0.f;
-	direction.y = 0.f;
+	entity.setScale(1, 1);
+	velocity.x = 0.f;
+	velocity.y = 0.f;
 	speed = 500.f;
 }
 
@@ -23,7 +23,7 @@ Character& Character::operator=(const Character& other)
 		this->idle_animations = other.idle_animations;
 		this->run_animations = other.run_animations;
 		this->current_animation = other.current_animation;
-		this->hero = other.hero;
+		this->entity = other.entity;
 		this->state = other.state;
 	}
 	return *this;
@@ -54,20 +54,11 @@ void Character::LoadAnimations(AssetManager& manager)
 
 	// Setting initial texture to a character
 	current_animation = 0;
-	hero.setTexture(*idle_animations[current_animation]);
+	entity.setTexture(*idle_animations[current_animation]);
 	state = CharacterMovement::State::Idle;
 }
 
 
-const sf::FloatRect& Character::GetGlobalBounds()
-{
-	return this->hero.getGlobalBounds();
-}
-
-void Character::Draw(sf::RenderWindow* window, float dt)
-{
-	window->draw(this->hero);
-}
 
 #include <iostream>
 
@@ -88,13 +79,13 @@ void Character::UpdateAnimation(float dt)
 			std::cout << "Idle" << std::endl;
 			current_animation = (current_animation + 1) % idle_animations.size(); // So vector doesn't overflow
 
-			this->hero.setTexture(*idle_animations[current_animation]); // Set hero texture to next one
+			this->entity.setTexture(*idle_animations[current_animation]); // Set entity texture to next one
 			break;
 		case CharacterMovement::State::Running:
 			std::cout << "Running" << std::endl;
 			current_animation = (current_animation + 1) % run_animations.size(); // So vector doesn't overflow
 
-			this->hero.setTexture(*run_animations[current_animation]); // Set hero texture to next one
+			this->entity.setTexture(*run_animations[current_animation]); // Set entity texture to next one
 			break;
 			
 		default:
@@ -103,22 +94,58 @@ void Character::UpdateAnimation(float dt)
 	}
 }
 
+void Character::UpdateMovement(float dt)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		this->velocity.x += -this->speed * dt;
+		SetState(CharacterMovement::State::Running);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		this->velocity.x += this->speed * dt;
+		SetState(CharacterMovement::State::Running);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		this->velocity.y += -this->speed * dt;
+		SetState(CharacterMovement::State::Running);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		this->velocity.y += this->speed * dt;
+		SetState(CharacterMovement::State::Running);
+	}
+	if (static_cast<int>(velocity.x) == 0 && static_cast<int>(velocity.y) == 0)
+	{
+		SetState(CharacterMovement::State::Idle);
+	}
+
+	if (static_cast<int>(velocity.x) != 0 && static_cast<int>(velocity.y) != 0)
+	{
+		this->velocity.x /= std::sqrt(2);
+		this->velocity.y /= std::sqrt(2);
+	}
+
+	Move(this->velocity);
+}
+
 void Character::SetDirection(float x, float y)
 {
-	this->direction.x += x;
-	this->direction.y += y;
+	this->velocity.x += x;
+	this->velocity.y += y;
 }
 
 void Character::SetDirection(sf::Vector2f direction)
 {
-	this->direction.x += direction.x;
-	this->direction.y += direction.y;
+	this->velocity.x += direction.x;
+	this->velocity.y += direction.y;
 }
 
 void Character::ClearDirection()
 {
-	this->direction.x = 0.f;
-	this->direction.y = 0.f;
+	this->velocity.x = 0.f;
+	this->velocity.y = 0.f;
 	this->state = CharacterMovement::State::Idle;
 }
 

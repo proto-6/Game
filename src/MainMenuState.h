@@ -16,7 +16,6 @@ class MainMenuState : public State
 private:
 	GameDataRef data;
 	ButtonName::Type hover_button_type;
-
 	std::vector<gm::Button> buttons;
 	std::shared_ptr<Character> hero;
 public:
