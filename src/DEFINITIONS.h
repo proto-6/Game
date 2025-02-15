@@ -8,6 +8,9 @@
 #define POSITIVE_BORDER_X 3840
 #define NEGATIVE_BORDER_Y -2240
 #define POSITIVE_BORDER_Y 2240
+#define CHARACTER_WIDTH 16 // In pixels
+#define CHARACTER_HEIGHT 21 // In pixels *note in file height is 28 but upper 7 pixels are empty all time
+
 
 namespace Font
 {

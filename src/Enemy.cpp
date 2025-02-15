@@ -48,7 +48,7 @@ Enemy::Enemy(AssetManager& manager, std::mt19937& rng)
 	RandomizePosition(rng);
 	animation_interval = 0.2f;
 	elapsed_time = 0.f;
-	enemy.setScale(4, 4);
+	entity.setScale(4, 4);
 	speed = 250.f;
 }
 
@@ -58,7 +58,7 @@ Enemy& Enemy::operator=(const Enemy& other)
 	{
 		this->run_animations = other.run_animations;
 		this->current_animation = other.current_animation;
-		this->enemy = other.enemy;
+		this->entity = other.entity;
 	}
 	return *this;
 }
@@ -77,20 +77,8 @@ void Enemy::LoadAnimations(AssetManager& manager)
 
 	// Setting initial texture to a Enemy
 	current_animation = 0;
-	enemy.setTexture(*run_animations[current_animation]);
+	entity.setTexture(*run_animations[current_animation]);
 
-}
-
-
-const sf::FloatRect& Enemy::GetGlobalBounds()
-{
-	return this->enemy.getGlobalBounds();
-}
-
-void Enemy::Draw(sf::RenderWindow* window, float dt)
-{
-	
-	window->draw(this->enemy);
 }
 
 
@@ -107,32 +95,30 @@ void Enemy::UpdateAnimation(float dt)
 
 		current_animation = (current_animation + 1) % run_animations.size(); // So vector doesn't overflow
 
-		this->enemy.setTexture(*run_animations[current_animation]); // Set enemy texture to next one
+		this->entity.setTexture(*run_animations[current_animation]); // Set entity texture to next one
 		
 	}
 }
 
 void Enemy::UpdateMovement(sf::Vector2f target, float dt)
 {
-	float offset_x_enemy = this->enemy.getGlobalBounds().width / 2.f;
-	float offset_x_hero = this->enemy.getGlobalBounds().width / 2.f;
-	if (this->enemy.getPosition().x + offset_x_enemy > target.x + offset_x_hero)
+	if (this->entity.getPosition().x > target.x)
 	{
-		this->enemy.setTextureRect(
+		this->entity.setTextureRect(
 			sf::IntRect(16, 0,
 				-16, 
 				28
 			));
 	}
 	
-	sf::Vector2f move_val((target - this->GetPosition()));
+	sf::Vector2f move_val((target - this->GetPosition() - this->GetGlobalBounds().getSize() / 2.f));
 	float vector_length = std::sqrt(std::pow(move_val.x, 2) + std::pow(move_val.y, 2));
 	move_val /= vector_length;
-	this->enemy.move(move_val * dt * speed);
+	this->entity.move(move_val * dt * speed);
 
-	if (this->enemy.getPosition().x + offset_x_enemy < target.x + offset_x_hero)
+	if (this->entity.getPosition().x < target.x )
 	{
-		this->enemy.setTextureRect(
+		this->entity.setTextureRect(
 			sf::IntRect(0, 0,
 				16,
 				28

@@ -35,13 +35,13 @@ void BattleState::UpdateView(float dt)
 {
 	const float half_view_x = this->view.getSize().x / 2.f;
 	const float half_view_y = this->view.getSize().y / 2.f;
-	sf::Vector2f view_center = sf::Vector2f(this->hero->GetPosition().x + this->hero->GetGlobalBounds().width / 2.f, this->hero->GetPosition().y);
+	sf::Vector2f view_center = sf::Vector2f(this->hero->GetPosition().x, this->hero->GetPosition().y);
 	sf::Vector2f movement = view_center - this->view.getCenter();
 
-	if (this->hero->GetPosition().x + half_view_x + this->hero->GetGlobalBounds().width >= POSITIVE_BORDER_X)
+	if (this->hero->GetPosition().x + half_view_x >= POSITIVE_BORDER_X)
 		view_center.x = POSITIVE_BORDER_X - half_view_x;
 
-	else if (this->hero->GetPosition().x - half_view_x + this->hero->GetGlobalBounds().width <= NEGATIVE_BORDER_X)
+	else if (this->hero->GetPosition().x - half_view_x <= NEGATIVE_BORDER_X)
 		view_center.x = NEGATIVE_BORDER_X + half_view_x;
 
 	if (this->hero->GetPosition().y + half_view_y >= POSITIVE_BORDER_Y)
@@ -68,7 +68,8 @@ BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
 
 void BattleState::Init()
 {
-	this->hero->SetScale(sf::Vector2f(4, 4)); // Size of character
+	this->hero->SetScale(sf::Vector2f(4, 4)); // So character isn't very small
+	hero->SetOrigin(hero->GetLocalBounds().width / 2.f, hero->GetLocalBounds().height / 2.f); // So it's easier to centralize character
 	this->hero->SetPosition(0.f, 0.f);
 	view.setCenter(0.f, 0.f);
 	view.setSize(sf::Vector2f(1920, 1080));
@@ -76,6 +77,8 @@ void BattleState::Init()
 	time_elapsed.restart();
 	map.LoadTiles(this->data->window.getSize());
 	timer = Timer(this->data->assets);
+	
+	circle.setFillColor(sf::Color::Red);
 }
 
 void BattleState::HandleInput(float dt)
@@ -91,7 +94,7 @@ void BattleState::HandleInput(float dt)
 void BattleState::Update(float dt)
 {
 	this->timer.Update();
-	UpdateView(dt); // It's here cause smoother camera movement
+	UpdateView(dt);
 	this->hero->UpdateMovement(dt);
 
 	if (static_cast<unsigned int>(time_elapsed.getElapsedTime().asMilliseconds()) > this->enemies.size() * enemy_spawnrate)
@@ -103,6 +106,7 @@ void BattleState::Update(float dt)
 	this->hero->ClearDirection();
 	UpdateEnemyPosition(dt);
 	UpdateEnemyAnimation(dt);
+
 }
 
 void BattleState::Render(float dt)
@@ -113,8 +117,11 @@ void BattleState::Render(float dt)
 	DrawEnemy(dt);
 
 	this->timer.Draw(this->data->window);
-	this->data->window.setView(view); // Same ^
+	circle.setPosition(view.getCenter());
 
+	this->data->window.setView(view);
+	this->data->window.draw(circle); // Center of screen
+	
 
 	this->data->window.display();
 }

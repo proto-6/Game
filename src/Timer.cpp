@@ -34,6 +34,7 @@ Timer::Timer(AssetManager& assets)
     this->clock.restart();
     this->text.setFont(assets.GetFont(Font::PixeloidSans));
     this->text.setCharacterSize(48);
+    this->text.setString("0:00");
     this->text.setOrigin(text.getGlobalBounds().getSize() / 2.f + text.getLocalBounds().getPosition());
     this->text.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 16.f);
 }

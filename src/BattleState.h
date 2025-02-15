@@ -25,6 +25,7 @@ private:
     float enemy_spawnrate;
     std::shared_ptr<Character> hero;
     std::vector<std::shared_ptr<Enemy>> enemies;
+    sf::CircleShape circle{ 5, 50 };
 
     // Methods
     void UpdateView(float dt);

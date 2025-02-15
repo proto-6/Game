@@ -13,8 +13,11 @@ MainMenuState::MainMenuState(GameDataRef data)
 
 void MainMenuState::MoveCharacter(sf::Vector2f pos2, float dt)
 {
-	sf::Vector2f new_pos = hero->GetPosition() + (dt) * (pos2 - hero->GetPosition());
-	hero->SetPosition(new_pos);
+	sf::Vector2f move_val = (dt) * (pos2 - hero->GetPosition());
+	hero->Move(move_val.x < 0.2f ? 0 : move_val.x, move_val.y < 0.2f ? 0 : move_val.y); // So character doesn't move infinetly
+	
+	
+	
 }
 
 void MainMenuState::Init()
@@ -67,6 +70,8 @@ void MainMenuState::InitCharacter()
 {
 	hero = std::make_shared<Character>(Character(this->data->assets));
 	hero->SetScale(20, 20);
+	
+	hero->SetOrigin(hero->GetLocalBounds().width / 2.f, hero->GetLocalBounds().height / 2.f);
 }
 
 
@@ -126,7 +131,7 @@ void MainMenuState::Update(float dt)
 			this->data->window.getSize().y / 3.f
 		), 
 		dt);*/
-	MoveCharacter(sf::Vector2f(1220, 360), dt);
+	MoveCharacter(sf::Vector2f(SCREEN_WIDTH * 2 / 3.f, SCREEN_HEIGHT / 1.5f), dt);
 	hero->UpdateAnimation(dt);
 	
 	
@@ -168,7 +173,7 @@ void MainMenuState::Render(float dt)
 		this->data->window.draw(button);
 		
 	}
-	
+
 
 	data->window.display();
 }
