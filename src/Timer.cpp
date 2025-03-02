@@ -46,6 +46,5 @@ void Timer::Update()
 
 void Timer::Draw(sf::RenderWindow& window)
 {
-    window.setView(window.getDefaultView());
     window.draw(this->text);
 }

@@ -60,7 +60,6 @@ void Character::LoadAnimations(AssetManager& manager)
 
 
 
-#include <iostream>
 
 void Character::UpdateAnimation(float dt)
 {
@@ -76,13 +75,11 @@ void Character::UpdateAnimation(float dt)
 		switch (state)
 		{
 		case CharacterMovement::State::Idle:
-			std::cout << "Idle" << std::endl;
 			current_animation = (current_animation + 1) % idle_animations.size(); // So vector doesn't overflow
 
 			this->entity.setTexture(*idle_animations[current_animation]); // Set entity texture to next one
 			break;
 		case CharacterMovement::State::Running:
-			std::cout << "Running" << std::endl;
 			current_animation = (current_animation + 1) % run_animations.size(); // So vector doesn't overflow
 
 			this->entity.setTexture(*run_animations[current_animation]); // Set entity texture to next one

@@ -11,6 +11,8 @@ class Entity
 protected:
 	sf::Sprite entity;
 	float speed;
+	float hp;
+	float invincible;
 public:
 	// Constructors
 	Entity();
@@ -32,6 +34,7 @@ public:
 	sf::Vector2f GetPosition() const { return entity.getPosition(); }
 	sf::Vector2f GetScale() const { return this->entity.getScale(); }
 	float GetSpeed() const { return this->speed; }
+	float& GetHealth() { return this->hp; }
 	const sf::FloatRect& GetGlobalBounds() { return this->entity.getGlobalBounds(); }
 	const sf::FloatRect& GetLocalBounds() { return this->entity.getLocalBounds(); }
 
@@ -39,5 +42,7 @@ public:
 	// Core methods
 	void Draw(sf::RenderWindow* window, float dt) { window->draw(this->entity); }
 	virtual void UpdateAnimation(float dt) = 0;
+	void ReceiveDamage();
+	void UpdateEffectsDuration(float dt);
 };
 

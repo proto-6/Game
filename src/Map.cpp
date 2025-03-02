@@ -10,6 +10,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	// draw the vertex array
 	target.draw(this->verticles, states);
+    target.draw(this->map_body, states);
 }
 
 
@@ -43,15 +44,24 @@ void Map::AddTile(float x, float y)
     }
 }
 
-Map::Map()
-    : hi_cords_down(0.f), hi_cords_up(0.f), hi_cords_left(0.f), hi_cords_right(0.f),
-    width(0), height(0)
+Map::Map(sf::Vector2u map_size)
+    : width(0), height(0)
 {
-	
+    LoadTiles(map_size);
+    // Calculating size of a map using starting and ending cords 
+    // (width * height * 4) - 1 - 2 means I'm using upper right cord of a tile
+    map_body.setSize( 
+        sf::Vector2f(verticles[(width * height * 4) - 1 - 2].position.x, verticles[(width * height * 4) - 1].position.y) -
+        sf::Vector2f(verticles[0].position));
+    map_body.setPosition(verticles[0].position);
+    map_body.setOutlineColor(sf::Color(31, 25, 25));
+    map_body.setOutlineThickness(12);
+    map_body.setFillColor(sf::Color::Transparent);
 }
 
-bool Map::LoadTiles(sf::Vector2u window_size)
+bool Map::LoadTiles(sf::Vector2u map_size)
 {
+    map_size /= 4u;
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(1, 6);
@@ -62,8 +72,8 @@ bool Map::LoadTiles(sf::Vector2u window_size)
     {
         return false;
     }
-    this->width = window_size.x / TILE_SIZE;
-    this->height = window_size.y / TILE_SIZE * 1.05;
+    this->width = map_size.x / TILE_SIZE;
+    this->height = map_size.y / TILE_SIZE;
     this->verticles.setPrimitiveType(sf::Quads);
     
 

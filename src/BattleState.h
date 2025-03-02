@@ -4,6 +4,7 @@
 #include <vector>
 #include <random>
 
+#include "HUD.h"
 #include "State.h"
 #include "GameData.h"
 #include "Character.h"
@@ -20,21 +21,24 @@ private:
     GameDataRef data;
     std::mt19937 rng;
     sf::Clock time_elapsed;
+    HUD hud;
 
     // Entities
     float enemy_spawnrate;
     std::shared_ptr<Character> hero;
     std::vector<std::shared_ptr<Enemy>> enemies;
-    sf::CircleShape circle{ 5, 50 };
 
     // Methods
     void UpdateView(float dt);
+    void DrawTimer();
 
-    // Enemies methods
     void UpdateEnemyPosition(float dt);
     void UpdateEnemyAnimation(float dt);
+    void UpdateEffectsDuration(float dt);
     void DrawEnemy(float dt);
-    void DrawTimer();
+    
+    void MapBordersCheck();
+    void CheckCollisions();
 public:
     BattleState(GameDataRef data, std::shared_ptr<Character> hero);
 
