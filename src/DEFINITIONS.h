@@ -4,10 +4,10 @@
 #define TILE_SIZE 16
 #define SCREEN_WIDTH 1920.f
 #define SCREEN_HEIGHT 1080.f
-#define NEGATIVE_BORDER_X -3840
-#define POSITIVE_BORDER_X 3840
-#define NEGATIVE_BORDER_Y -2240
-#define POSITIVE_BORDER_Y 2240
+#define NEGATIVE_BORDER_X -960
+#define POSITIVE_BORDER_X 960
+#define NEGATIVE_BORDER_Y -512
+#define POSITIVE_BORDER_Y 512
 #define CHARACTER_WIDTH 16 // In pixels
 #define CHARACTER_HEIGHT 21 // In pixels *note in file height is 28 but upper 7 pixels are empty all time
 

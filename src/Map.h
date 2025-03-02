@@ -11,10 +11,7 @@ class Map : public sf::Drawable, public sf::Transformable
 private:
 	sf::VertexArray verticles;
 	sf::Texture tileset;
-	float hi_cords_left; // Highest explorable coordinates by character in left direction
-	float hi_cords_right;
-	float hi_cords_up;
-	float hi_cords_down;
+	sf::RectangleShape map_body;
 	int width; // In tiles, each one is 16x16
 	int height; // In tiles, each one is 16x16
 	
@@ -25,7 +22,7 @@ private:
 	/// </summary>
 	void AddTile(float x, float y);
 public:
-	Map();
+	Map(sf::Vector2u size);
 	bool LoadTiles(sf::Vector2u window_size);
 	
 	// Getters

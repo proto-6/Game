@@ -38,6 +38,7 @@ public:
 
 	// Getters
 	sf::Vector2f GetDirection() const { return this->velocity; }
+	sf::Vector2f GetVelocity() const { return this->velocity; }
 	CharacterMovement::State GetState() const { return this->state; }
 
 	// Core methods
