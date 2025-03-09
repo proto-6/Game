@@ -112,7 +112,7 @@ void Enemy::UpdateMovement(sf::Vector2f target, float dt)
 	}
 	
 	sf::Vector2f move_val((target - this->GetPosition() - this->GetGlobalBounds().getSize() / 2.f));
-	float vector_length = std::sqrt(std::pow(move_val.x, 2) + std::pow(move_val.y, 2));
+	float vector_length = static_cast<float>(std::sqrt(std::pow(move_val.x, 2) + std::pow(move_val.y, 2)));
 	move_val /= vector_length;
 	this->entity.move(move_val * dt * speed);
 

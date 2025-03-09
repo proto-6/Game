@@ -10,9 +10,11 @@ class Entity
 {
 protected:
 	sf::Sprite entity;
-	float speed;
+
 	float hp;
+	float speed;
 	float invincible;
+	float flash_color;
 public:
 	// Constructors
 	Entity();
@@ -35,12 +37,13 @@ public:
 	sf::Vector2f GetScale() const { return this->entity.getScale(); }
 	float GetSpeed() const { return this->speed; }
 	float& GetHealth() { return this->hp; }
-	const sf::FloatRect& GetGlobalBounds() { return this->entity.getGlobalBounds(); }
-	const sf::FloatRect& GetLocalBounds() { return this->entity.getLocalBounds(); }
+	const sf::FloatRect GetGlobalBounds() { return this->entity.getGlobalBounds(); }
+	const sf::FloatRect GetLocalBounds() { return this->entity.getLocalBounds(); }
 
 
 	// Core methods
 	void Draw(sf::RenderWindow* window, float dt) { window->draw(this->entity); }
+	void Draw(sf::RenderWindow* window, sf::Shader& shader, float dt) { window->draw(this->entity, &shader); }
 	virtual void UpdateAnimation(float dt) = 0;
 	void ReceiveDamage();
 	void UpdateEffectsDuration(float dt);

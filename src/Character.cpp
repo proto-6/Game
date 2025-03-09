@@ -16,7 +16,7 @@ Character::Character(AssetManager& manager)
 	speed = 500.f;
 }
 
-Character& Character::operator=(const Character& other)
+Character& Character::operator=(Character& other)
 {
 	if (this != &other)
 	{
@@ -120,8 +120,8 @@ void Character::UpdateMovement(float dt)
 
 	if (static_cast<int>(velocity.x) != 0 && static_cast<int>(velocity.y) != 0)
 	{
-		this->velocity.x /= std::sqrt(2);
-		this->velocity.y /= std::sqrt(2);
+		this->velocity.x /= static_cast<float>(std::sqrt(2));
+		this->velocity.y /= static_cast<float>(std::sqrt(2));
 	}
 
 	Move(this->velocity);
