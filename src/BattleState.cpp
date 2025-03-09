@@ -27,6 +27,14 @@ void BattleState::UpdateEffectsDuration(float dt)
 	}
 }
 
+void BattleState::UpdateAfterDamageBlinking(float dt)
+{
+	if (this->character_blink > 0)
+	{
+		this->character_blink -= 1 * dt;
+	}
+}
+
 void BattleState::DrawEnemy(float dt)
 {
 	for (auto& enemy : enemies)
@@ -60,17 +68,20 @@ void BattleState::MapBordersCheck()
 		this->hero->SetPosition(this->hero->GetPosition().x, POSITIVE_BORDER_Y - this->hero->GetGlobalBounds().height / 2.f);
 	}
 }
-#include <iostream>
-#include <SFML/Graphics.hpp>
+
 void BattleState::CheckCollisions()
 {
 	for (auto& enemy : enemies)
 	{
 		sf::FloatRect rect1 = hero->GetGlobalBounds();
-		std::cout << rect1.intersects(enemy->GetGlobalBounds()) << std::endl;
 		if (rect1.intersects(enemy->GetGlobalBounds()))
 		{
 			this->hero->ReceiveDamage();
+			if (!(this->character_blink > 0.f))
+			{
+				this->character_blink = 0.5f;
+			}
+			
 		}
 	}
 	
@@ -114,7 +125,9 @@ void BattleState::Init()
 	time_elapsed.restart();
 	timer = Timer(this->data->assets);
 
-	
+	this->shader.loadFromFile("DamageReceiveShader.frag", sf::Shader::Fragment);
+	this->shader.setUniform("flash_color", sf::Glsl::Vec4(0.7, 0, 0, 0.1));
+	this->character_blink = 0.f;
 }
 
 void BattleState::HandleInput(float dt)
@@ -145,13 +158,15 @@ void BattleState::Update(float dt)
 	UpdateEnemyAnimation(dt);
 	CheckCollisions();
 	UpdateEffectsDuration(dt);
+	UpdateAfterDamageBlinking(dt);
+	this->shader.setUniform("flash_color", sf::Glsl::Vec4(0.7, 0, 0, this->character_blink));
 }
 
 void BattleState::Render(float dt)
 {
 	this->data->window.clear(sf::Color(16, 16, 16));
 	this->data->window.draw(map);
-	this->hero->Draw(&this->data->window, dt);
+	this->hero->Draw(&this->data->window, shader, dt);
 	DrawEnemy(dt);
 
 	hud.Draw(this->data->window, this->view);

@@ -17,17 +17,17 @@ private:
 	std::vector<std::shared_ptr<sf::Texture>> idle_animations;
 	std::vector<std::shared_ptr<sf::Texture>> run_animations;
 
-	unsigned int current_animation;//
-	float animation_interval;//
-	float elapsed_time;//
+	unsigned int current_animation;
+	float animation_interval;
+	float elapsed_time;
 	sf::Vector2f velocity;
-	float speed;//
+	float speed;
 
 public:
 	// Constructors
-	Character(AssetManager& manager);//
-	Character& operator=(const Character& other);//
-	virtual void LoadAnimations(AssetManager& manager) override;//
+	Character(AssetManager& manager);
+	Character& operator=(Character& other);
+	virtual void LoadAnimations(AssetManager& manager) override;
 
 	// Setters
 	void SetDirection(float x, float y);
@@ -42,7 +42,7 @@ public:
 	CharacterMovement::State GetState() const { return this->state; }
 
 	// Core methods
-	virtual void UpdateAnimation(float dt) override;//
-	void UpdateMovement(float dt);//
+	virtual void UpdateAnimation(float dt) override;
+	void UpdateMovement(float dt);
 };
 

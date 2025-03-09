@@ -27,6 +27,8 @@ private:
     float enemy_spawnrate;
     std::shared_ptr<Character> hero;
     std::vector<std::shared_ptr<Enemy>> enemies;
+    sf::Shader shader;
+    float character_blink;
 
     // Methods
     void UpdateView(float dt);
@@ -35,6 +37,7 @@ private:
     void UpdateEnemyPosition(float dt);
     void UpdateEnemyAnimation(float dt);
     void UpdateEffectsDuration(float dt);
+    void UpdateAfterDamageBlinking(float dt);
     void DrawEnemy(float dt);
     
     void MapBordersCheck();
