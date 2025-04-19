@@ -15,6 +15,8 @@ protected:
 	float speed;
 	float invincible;
 	float flash_color;
+
+	const float after_danage_invincibility_time = 0.8f;
 public:
 	// Constructors
 	Entity();
@@ -42,8 +44,8 @@ public:
 
 
 	// Core methods
-	void Draw(sf::RenderWindow* window, float dt) { window->draw(this->entity); }
-	void Draw(sf::RenderWindow* window, sf::Shader& shader, float dt) { window->draw(this->entity, &shader); }
+	virtual void Draw(sf::RenderWindow* window, float dt) { window->draw(this->entity); }
+	virtual void Draw(sf::RenderWindow* window, sf::Shader& shader, float dt) { window->draw(this->entity, &shader); }
 	virtual void UpdateAnimation(float dt) = 0;
 	void ReceiveDamage();
 	void UpdateEffectsDuration(float dt);
