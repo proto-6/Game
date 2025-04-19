@@ -1,21 +1,17 @@
 #include "BattleState.h"
 
 
-void BattleState::UpdateEnemyPosition(float dt)
+void BattleState::UpdateEnemy(float dt)
 {
 	for (auto& enemy : enemies)
 	{
 		enemy->UpdateMovement(this->hero->GetPosition(), dt);
+		enemy->UpdateAnimation(dt);
+		enemy->UpdateAttack(this->hero->GetPosition(), dt, this->data->window);
+		
 	}
 }
 
-void BattleState::UpdateEnemyAnimation(float dt)
-{
-	for (auto& enemy : enemies)
-	{
-		enemy->UpdateAnimation(dt);
-	}
-}
 
 void BattleState::UpdateEffectsDuration(float dt)
 {
@@ -45,7 +41,6 @@ void BattleState::DrawEnemy(float dt)
 
 void BattleState::DrawTimer()
 {
-	/*this->data->window.setView(this->data->window.getDefaultView());*/
 	this->timer.Draw(this->data->window);
 }
 
@@ -76,7 +71,7 @@ void BattleState::CheckCollisions()
 		sf::FloatRect rect1 = hero->GetGlobalBounds();
 		if (rect1.intersects(enemy->GetGlobalBounds()))
 		{
-			this->hero->ReceiveDamage();
+			this->hero->ReceiveDamage(*enemy);
 			if (!(this->character_blink > 0.f))
 			{
 				this->character_blink = 0.5f;
@@ -107,7 +102,7 @@ void BattleState::UpdateView(float dt)
 }
 
 BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
-	: data(data), hero(hero), rng(std::random_device{}()), enemy_spawnrate(0.f), map(data->window.getSize()), hud(this->data->assets, timer, hero->GetHealth())
+	: data(data), hero(hero), rng(std::random_device{}()), enemy_spawnrate(0.f), map(data->window.getSize()), hud(this->data->assets, timer, hero->GetHealth()), character_blink(0.f)
 {
 
 }
@@ -120,8 +115,7 @@ void BattleState::Init()
 
 	view.setCenter(0.f, 0.f);
 	view.setSize(sf::Vector2f(1920, 1080));
-
-	this->enemy_spawnrate = 2000.f;
+	this->enemy_spawnrate = 4000.f;
 	time_elapsed.restart();
 	timer = Timer(this->data->assets);
 
@@ -154,8 +148,7 @@ void BattleState::Update(float dt)
 
 	this->hero->UpdateAnimation(dt);
 	this->hero->ClearDirection();
-	UpdateEnemyPosition(dt);
-	UpdateEnemyAnimation(dt);
+	UpdateEnemy(dt);
 	CheckCollisions();
 	UpdateEffectsDuration(dt);
 	UpdateAfterDamageBlinking(dt);

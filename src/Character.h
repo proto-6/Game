@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Enemy.h"
 
 namespace CharacterMovement
 {
@@ -34,6 +35,7 @@ public:
 	void SetDirection(sf::Vector2f direction);
 	void ClearDirection();
 	void SetState(CharacterMovement::State state) { this->state = state; }
+	void ReceiveDamage(Enemy& enemy);
 	
 
 	// Getters

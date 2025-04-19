@@ -14,6 +14,7 @@ Character::Character(AssetManager& manager)
 	velocity.x = 0.f;
 	velocity.y = 0.f;
 	speed = 500.f;
+	hp = 100.f;
 }
 
 Character& Character::operator=(Character& other)
@@ -144,5 +145,14 @@ void Character::ClearDirection()
 	this->velocity.x = 0.f;
 	this->velocity.y = 0.f;
 	this->state = CharacterMovement::State::Idle;
+}
+
+void Character::ReceiveDamage(Enemy& enemy)
+{
+	if (invincible < 0.f)
+	{
+		this->hp -= enemy.GetDamage();
+		this->invincible = 0.5f;
+	}
 }
 

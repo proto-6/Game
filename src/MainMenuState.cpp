@@ -1,7 +1,5 @@
 #include "MainMenuState.h"
 
-#include <iostream>
-
 
 
 MainMenuState::MainMenuState(GameDataRef data) 
@@ -90,23 +88,19 @@ void MainMenuState::HandleInput(float dt)
 			{
 				if (hover_button_type == ButtonName::Play)
 				{
-					std::cout << "Play Button pressed" << std::endl;
 					// Changed from GameMenuState to BattleState (in debugging purposes)
 					data->stack.AddState(StatePtr(new BattleState(data, hero)), true);
 					
 				}
 				else if (hover_button_type == ButtonName::Settings)
 				{
-					std::cout << "Setting Button presssed" << std::endl;
 				}
 				else if (hover_button_type == ButtonName::Exit)
 				{
-					std::cout << "Exit Button pressed" << std::endl;
 					this->data->window.close();
 				}
 				else if (hover_button_type == ButtonName::None)
 				{
-					std::cout << "Welp" << std::endl;
 				}
 			}
 		}

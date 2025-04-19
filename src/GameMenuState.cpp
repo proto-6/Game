@@ -1,6 +1,5 @@
 #include "GameMenuState.h"
 
-#include <iostream>
 
 GameMenuState::GameMenuState(GameDataRef data)
 	: data(data), _hover_button_type(ButtonName::Type::None)
@@ -69,20 +68,16 @@ void GameMenuState::HandleInput(float dt)
 			{
 				if (_hover_button_type == ButtonName::Play)
 				{
-					std::cout << "Play Button pressed" << std::endl;
 				}
 				else if (_hover_button_type == ButtonName::Settings)
 				{
-					std::cout << "Setting Button presssed" << std::endl;
 				}
 				else if (_hover_button_type == ButtonName::Exit)
 				{
-					std::cout << "Exit Button pressed" << std::endl;
 					this->data->window.close();
 				}
 				else if (_hover_button_type == ButtonName::None)
 				{
-					std::cout << "Welp" << std::endl;
 				}
 			}
 		}

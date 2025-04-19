@@ -15,7 +15,7 @@ void Entity::ReceiveDamage()
 	if (invincible < 0.f)
 	{
 		this->hp -= 10;
-		this->invincible = 0.5f;
+		this->invincible = this->after_danage_invincibility_time;
 		
 	}
 }

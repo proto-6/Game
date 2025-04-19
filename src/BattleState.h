@@ -34,8 +34,7 @@ private:
     void UpdateView(float dt);
     void DrawTimer();
 
-    void UpdateEnemyPosition(float dt);
-    void UpdateEnemyAnimation(float dt);
+    void UpdateEnemy(float dt);
     void UpdateEffectsDuration(float dt);
     void UpdateAfterDamageBlinking(float dt);
     void DrawEnemy(float dt);
