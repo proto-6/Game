@@ -1,7 +1,7 @@
 #include "HUD.h"
 
-HUD::HUD(AssetManager& assets, Timer& timer, float& hp)
-	: timer(timer), hp(hp) 
+HUD::HUD(AssetManager& assets, int& hp)
+	: timer(assets), hp(hp), score(assets)
 {
 	std::stringstream stream;
 	stream << std::fixed << std::setprecision(1) << hp;
@@ -21,6 +21,18 @@ void HUD::Draw(sf::RenderWindow& target, sf::View& view)
 	stream << std::fixed << std::setprecision(1) << hp;
 	this->hp_text.setString(stream.str());
 	target.draw(hp_text);
+	score.Draw(target);
 
 	target.setView(view);
+}
+
+void HUD::Update()
+{
+	this->timer.Update();
+
+}
+
+void HUD::AddToScore()
+{
+	this->score.AddToScore(100);
 }

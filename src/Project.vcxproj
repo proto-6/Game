@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="BaseAttack.cpp" />
     <ClCompile Include="BattleState.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -151,10 +152,12 @@
     <ClCompile Include="GameMenuState.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="MagicAttack.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="RoundedRectangleShape.cpp" />
+    <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="SplashState.cpp" />
     <ClCompile Include="StateStack.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -162,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="BaseAttack.h" />
     <ClInclude Include="BattleState.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Character.h" />
@@ -172,9 +176,11 @@
     <ClInclude Include="GameMenuState.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MagicAttack.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="RoundedRectangleShape.h" />
+    <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SplashState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateStack.h" />

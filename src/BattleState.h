@@ -16,7 +16,6 @@ class BattleState : public State
 {
 private:
     Map map;
-    Timer timer;
     sf::View view;
     GameDataRef data;
     std::mt19937 rng;
@@ -30,9 +29,9 @@ private:
     sf::Shader shader;
     float character_blink;
 
+
     // Methods
     void UpdateView(float dt);
-    void DrawTimer();
 
     void UpdateEnemy(float dt);
     void UpdateEffectsDuration(float dt);

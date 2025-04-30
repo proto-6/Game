@@ -16,7 +16,7 @@ private:
     // Methods
     std::string GetString();
 public:
-    Timer() {}
+    Timer() = delete;
     Timer(AssetManager& assets);
 
     void Update();

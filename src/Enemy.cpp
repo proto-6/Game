@@ -57,8 +57,8 @@ Enemy::Enemy(AssetManager& manager, std::mt19937& rng)
 	state = State::Move;
 	attack_range = 220.f;
 	stun = 0;
-	time_until_attack = attack_time_delay;
-	attack_cooldown = default_attack_cooldown;
+	time_until_attack = Enemy_Consts::attack_time_delay;
+	attack_cooldown = Enemy_Consts::default_attack_cooldown;
 	current_dash_stage = 0;
 	dash_attack_time = 0;
 	dash_move_amount = sf::Vector2f{ 0,0 };
@@ -98,20 +98,17 @@ float Enemy::GetDamage()
 {
 	if (this->state == State::Attack)
 	{
-		return this->dash_attack_damage;
+		return Enemy_Consts::dash_attack_damage;
 	}
 	else
 	{
-		return this->default_collision_damage;
+		return Enemy_Consts::default_collision_damage;
 	}
 }
 
+
 void Enemy::UpdateAnimation(float dt)
 {
-	/*if (this->state == EnemyMovement::State::Running)
-	{
-		elapsed_time += dt * this->speed / 800.f;
-	}*/
 	elapsed_time += dt;
 	if (elapsed_time >= animation_interval)
 	{
@@ -183,13 +180,13 @@ void Enemy::UpdateAttack(sf::Vector2f target, float dt, sf::RenderWindow& window
 
 		this->attack_box.setPosition(start);
 		this->attack_box.setRotation(angle);
-		this->attack_box.setFillColor(this->attack_color);
+		this->attack_box.setFillColor(Enemy_Consts::attack_color);
 
 		float angleRad = angle * (3.14159f / 180.f);
 		sf::Vector2f direction(std::cos(angleRad), std::sin(angleRad));
 		this->attack_target = start + direction * (this->attack_range + half_entity_size.x);
 
-		this->time_until_attack = attack_time_delay;
+		this->time_until_attack = Enemy_Consts::attack_time_delay;
 		this->state = State::Attack;
 	} 
 	else if (this->state == State::Attack)
@@ -210,19 +207,19 @@ void Enemy::UpdateAttack(sf::Vector2f target, float dt, sf::RenderWindow& window
 				
 			}
 			this->dash_attack_time += dt;
-			const float dash_stage_change_time = this->default_dash_attack_time / this->default_amount_dash_stages;
-			sf::Vector2f splited_move_amount = dash_move_amount / static_cast<float>(default_amount_dash_stages);
+			const float dash_stage_change_time = Enemy_Consts::default_dash_attack_time / Enemy_Consts::default_amount_dash_stages;
+			sf::Vector2f splited_move_amount = dash_move_amount / static_cast<float>(Enemy_Consts::default_amount_dash_stages);
 			if (this->dash_attack_time > dash_stage_change_time * this->current_dash_stage)
 			{
 				this->Entity::Move(splited_move_amount );
-				entity.setColor(sf::Color(255, 255, 255, 75 + (180 / default_amount_dash_stages) * current_dash_stage));
+				entity.setColor(sf::Color(255, 255, 255, 75 + (180 / Enemy_Consts::default_amount_dash_stages) * current_dash_stage));
 				current_dash_stage++;
 			}
-			else if (this->current_dash_stage == this->default_amount_dash_stages)
+			else if (this->current_dash_stage == Enemy_Consts::default_amount_dash_stages)
 			{
-				this->attack_cooldown = default_attack_cooldown;
+				this->attack_cooldown = Enemy_Consts::default_attack_cooldown;
 				this->state = State::Stun;
-				this->stun = after_attack_stun;
+				this->stun = Enemy_Consts::after_attack_stun;
 				this->attack_box.setFillColor(sf::Color::Transparent);
 				this->current_dash_stage = 0;
 				this->dash_attack_time = 0;

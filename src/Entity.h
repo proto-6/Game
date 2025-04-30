@@ -11,12 +11,12 @@ class Entity
 protected:
 	sf::Sprite entity;
 
-	float hp;
+	int hp;
 	float speed;
 	float invincible;
 	float flash_color;
 
-	const float after_danage_invincibility_time = 0.8f;
+	const float after_damage_invincibility_time = 0.8f;
 public:
 	// Constructors
 	Entity();
@@ -38,7 +38,7 @@ public:
 	sf::Vector2f GetPosition() const { return entity.getPosition(); }
 	sf::Vector2f GetScale() const { return this->entity.getScale(); }
 	float GetSpeed() const { return this->speed; }
-	float& GetHealth() { return this->hp; }
+	int& GetHealth() { return this->hp; }
 	const sf::FloatRect GetGlobalBounds() { return this->entity.getGlobalBounds(); }
 	const sf::FloatRect GetLocalBounds() { return this->entity.getLocalBounds(); }
 
