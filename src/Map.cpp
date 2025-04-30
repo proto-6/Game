@@ -57,6 +57,7 @@ Map::Map(sf::Vector2u map_size)
     map_body.setOutlineColor(sf::Color(31, 25, 25));
     map_body.setOutlineThickness(12);
     map_body.setFillColor(sf::Color::Transparent);
+    
 }
 
 bool Map::LoadTiles(sf::Vector2u map_size)

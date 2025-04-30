@@ -39,10 +39,7 @@ void BattleState::DrawEnemy(float dt)
 	}
 }
 
-void BattleState::DrawTimer()
-{
-	this->timer.Draw(this->data->window);
-}
+
 
 void BattleState::MapBordersCheck()
 {
@@ -66,18 +63,35 @@ void BattleState::MapBordersCheck()
 
 void BattleState::CheckCollisions()
 {
-	for (auto& enemy : enemies)
+	for (auto it = this->enemies.begin(); it != this->enemies.end(); )
 	{
-		sf::FloatRect rect1 = hero->GetGlobalBounds();
-		if (rect1.intersects(enemy->GetGlobalBounds()))
+		auto& enemy = *it;
+		sf::FloatRect hero_collision_box = this->hero->GetGlobalBounds();
+		if (hero_collision_box.intersects(enemy->GetGlobalBounds()))
 		{
 			this->hero->ReceiveDamage(*enemy);
 			if (!(this->character_blink > 0.f))
 			{
 				this->character_blink = 0.5f;
 			}
-			
 		}
+		if (this->hero->IsAttackUsed())
+		{
+			sf::FloatRect attack_collision_box = this->hero->GetAttackCollisionBox();
+			if (attack_collision_box.intersects(enemy->GetGlobalBounds()))
+			{
+				enemy->ReceiveDamage(this->hero->GetAttackDamage());
+				if (!enemy->IsAlive())
+				{
+					it = this->enemies.erase(it);
+					this->hud.AddToScore();
+					continue; // Skip incrementing, since erase already returns next valid iterator
+				}
+			}
+		}
+		
+
+		++it; // Move to next enemy
 	}
 	
 }
@@ -102,9 +116,9 @@ void BattleState::UpdateView(float dt)
 }
 
 BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
-	: data(data), hero(hero), rng(std::random_device{}()), enemy_spawnrate(0.f), map(data->window.getSize()), hud(this->data->assets, timer, hero->GetHealth()), character_blink(0.f)
+	: data(data), hero(hero), rng(std::random_device{}()), enemy_spawnrate(0.f), map(data->window.getSize()), hud(this->data->assets, hero->GetHealth()), character_blink(0.f)
 {
-
+	
 }
 
 void BattleState::Init()
@@ -112,16 +126,18 @@ void BattleState::Init()
 	this->hero->SetScale(sf::Vector2f(4, 4)); // So character isn't very small
 	hero->SetOrigin(hero->GetLocalBounds().width / 2.f, hero->GetLocalBounds().height / 2.f); // So it's easier to centralize character
 	this->hero->SetPosition(0.f, 0.f);
+	hero->SetState(CharacterMovement::State::Idle);
 
 	view.setCenter(0.f, 0.f);
 	view.setSize(sf::Vector2f(1920, 1080));
 	this->enemy_spawnrate = 4000.f;
 	time_elapsed.restart();
-	timer = Timer(this->data->assets);
 
 	this->shader.loadFromFile("DamageReceiveShader.frag", sf::Shader::Fragment);
-	this->shader.setUniform("flash_color", sf::Glsl::Vec4(0.7, 0, 0, 0.1));
+	this->shader.setUniform("flash_color", sf::Glsl::Vec4(0.7f, 0.f, 0.f, 0.1f));
 	this->character_blink = 0.f;
+
+
 }
 
 void BattleState::HandleInput(float dt)
@@ -136,7 +152,7 @@ void BattleState::HandleInput(float dt)
 
 void BattleState::Update(float dt)
 {
-	this->timer.Update();
+	this->hud.Update();
 	UpdateView(dt);
 	this->hero->UpdateMovement(dt);
 	this->MapBordersCheck();
@@ -148,11 +164,12 @@ void BattleState::Update(float dt)
 
 	this->hero->UpdateAnimation(dt);
 	this->hero->ClearDirection();
+	this->hero->UpdateAttack(dt, this->data->window, map.GetGlobalBounds());
 	UpdateEnemy(dt);
 	CheckCollisions();
 	UpdateEffectsDuration(dt);
 	UpdateAfterDamageBlinking(dt);
-	this->shader.setUniform("flash_color", sf::Glsl::Vec4(0.7, 0, 0, this->character_blink));
+	this->shader.setUniform("flash_color", sf::Glsl::Vec4(0.7f, 0.f, 0.f, this->character_blink));
 }
 
 void BattleState::Render(float dt)
@@ -161,6 +178,10 @@ void BattleState::Render(float dt)
 	this->data->window.draw(map);
 	this->hero->Draw(&this->data->window, shader, dt);
 	DrawEnemy(dt);
+	if (this->hero->IsAttackUsed())
+	{
+		this->hero->DrawAttack(&this->data->window);
+	}
 
 	hud.Draw(this->data->window, this->view);
 	

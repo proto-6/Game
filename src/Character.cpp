@@ -15,6 +15,8 @@ Character::Character(AssetManager& manager)
 	velocity.y = 0.f;
 	speed = 500.f;
 	hp = 100.f;
+	attack_cooldown = default_attack_cooldown;
+	attack.second = false;
 }
 
 Character& Character::operator=(Character& other)
@@ -59,6 +61,31 @@ void Character::LoadAnimations(AssetManager& manager)
 	state = CharacterMovement::State::Idle;
 }
 
+void Character::UpdateAttack(float dt, sf::RenderWindow& window, const sf::FloatRect& map_box)
+{
+	if (this->attack.second == false)
+	{
+		this->attack_cooldown -= dt;
+		if (this->attack_cooldown <= 0.f)
+		{
+			this->attack.first = std::make_shared<MagicAttack>(this->GetPosition(), window.mapPixelToCoords(sf::Mouse::getPosition(window)));
+			this->attack.second = true;
+			
+			attack_cooldown = default_attack_cooldown;
+		}
+	}
+	else if (this->attack.second == true && !this->attack.first->CheckCollision(map_box))
+	{
+		this->attack.first.reset();
+		this->attack.second = false;
+	}
+	else
+	{
+		this->attack.first->UpdateMovement(dt);
+	}
+}
+
+
 
 
 
@@ -75,6 +102,11 @@ void Character::UpdateAnimation(float dt)
 
 		switch (state)
 		{
+		case CharacterMovement::State::Pose:
+			current_animation = (current_animation + 1) % idle_animations.size(); // So vector doesn't overflow
+
+			this->entity.setTexture(*idle_animations[current_animation]); // Set entity texture to next one
+			break;
 		case CharacterMovement::State::Idle:
 			current_animation = (current_animation + 1) % idle_animations.size(); // So vector doesn't overflow
 
@@ -90,26 +122,31 @@ void Character::UpdateAnimation(float dt)
 			break;
 		}
 	}
+	if (this->state != CharacterMovement::State::Pose && this->attack.second == true)
+	{
+		this->attack.first->UpdateAnimation(dt);
+	}
+	
 }
 
 void Character::UpdateMovement(float dt)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		this->velocity.x += -this->speed * dt;
 		SetState(CharacterMovement::State::Running);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		this->velocity.x += this->speed * dt;
 		SetState(CharacterMovement::State::Running);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		this->velocity.y += -this->speed * dt;
 		SetState(CharacterMovement::State::Running);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		this->velocity.y += this->speed * dt;
 		SetState(CharacterMovement::State::Running);
@@ -128,11 +165,16 @@ void Character::UpdateMovement(float dt)
 	Move(this->velocity);
 }
 
+void Character::DrawAttack(sf::RenderWindow* window)
+{
+	this->attack.first->Draw(*window);
+}
+
 void Character::SetDirection(float x, float y)
 {
 	this->velocity.x += x;
 	this->velocity.y += y;
-}
+} 
 
 void Character::SetDirection(sf::Vector2f direction)
 {

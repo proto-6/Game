@@ -26,6 +26,7 @@ public:
 	bool LoadTiles(sf::Vector2u window_size);
 	
 	// Getters
+	sf::FloatRect GetGlobalBounds() { return this->map_body.getGlobalBounds(); }
 	
 	/// <summary>
 	/// In tiles (64px each)
