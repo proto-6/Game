@@ -11,4 +11,4 @@ Escape - to get sent to Valhalla
 Defeat enemies, earn point eat & repeat.
 
 
-* okay-ish
+\* okay-ish
