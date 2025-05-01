@@ -12,6 +12,8 @@
 #include "Map.h"
 #include "Timer.h"
 
+#include "DeathScreenState.h"
+
 class BattleState : public State
 {
 private:

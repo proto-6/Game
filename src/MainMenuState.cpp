@@ -3,7 +3,7 @@
 
 
 MainMenuState::MainMenuState(GameDataRef data) 
-	: data(data), hover_button_type(ButtonName::None)
+	: data(data), hover_button_type(ButtonName::None), hi_score(data->assets, Score::Type::Hi_Score)
 {
 	
 	
@@ -22,6 +22,7 @@ void MainMenuState::Init()
 {
 	InitButtons();
 	InitCharacter();
+
 	
 	hover_button_type = ButtonName::None;
 
@@ -29,7 +30,7 @@ void MainMenuState::Init()
 
 void MainMenuState::InitButtons()
 {
-	std::vector<sf::String> button_names = { "Play", "Settings", "Exit" };
+	std::vector<sf::String> button_names = { "Play", "Exit" };
 	for (auto& button_name : button_names)
 	{
 		if (this->buttons.empty())
@@ -40,7 +41,7 @@ void MainMenuState::InitButtons()
 			this->buttons.back().SetPosition
 			(
 				this->data->window.getSize().x / 8.f - this->buttons.back().GetSize().x / 8.f,
-				this->data->window.getSize().y / 1.8f
+				this->data->window.getSize().y / 1.4f
 			);
 		}
 		else
@@ -92,9 +93,6 @@ void MainMenuState::HandleInput(float dt)
 					// Changed from GameMenuState to BattleState (in debugging purposes)
 					data->stack.AddState(StatePtr(new BattleState(data, hero)), true);
 					
-				}
-				else if (hover_button_type == ButtonName::Settings)
-				{
 				}
 				else if (hover_button_type == ButtonName::Exit)
 				{
@@ -168,6 +166,8 @@ void MainMenuState::Render(float dt)
 		this->data->window.draw(button);
 		
 	}
+
+	this->hi_score.Draw(this->data->window);
 
 
 	data->window.display();

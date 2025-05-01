@@ -70,9 +70,14 @@ void BattleState::CheckCollisions()
 		if (hero_collision_box.intersects(enemy->GetGlobalBounds()))
 		{
 			this->hero->ReceiveDamage(*enemy);
+			this->hud.UpdateHp();
 			if (!(this->character_blink > 0.f))
 			{
 				this->character_blink = 0.5f;
+			}
+			if (this->hero->GetHealth() <= 0)
+			{
+				data->stack.AddState(StatePtr(new DeathScreenState(data, this->hud.GetScoreManager())), true);
 			}
 		}
 		if (this->hero->IsAttackUsed())
@@ -116,7 +121,7 @@ void BattleState::UpdateView(float dt)
 }
 
 BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
-	: data(data), hero(hero), rng(std::random_device{}()), enemy_spawnrate(0.f), map(data->window.getSize()), hud(this->data->assets, hero->GetHealth()), character_blink(0.f)
+	: data(data), hero(hero), rng(std::random_device{}()), enemy_spawnrate(0.f), map(data->window.getSize()), hud(this->data->assets, HealthManager{this->data->assets, hero->GetHealth()}, Score::Type::In_Game), character_blink(0.f)
 {
 	
 }
@@ -147,6 +152,13 @@ void BattleState::HandleInput(float dt)
 	while (this->data->window.pollEvent(ev))
 	{
 		if (ev.type == sf::Event::Closed) this->data->window.close();
+		if (ev.type == sf::Event::KeyPressed)
+		{
+			if (ev.key.code == sf::Keyboard::Escape)
+			{
+				data->stack.AddState(StatePtr(new DeathScreenState(data, this->hud.GetScoreManager())), true);
+			}
+		}
 	}
 }
 
