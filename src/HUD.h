@@ -1,24 +1,26 @@
 #pragma once
-#include <sstream>
-#include <iomanip>
+
 #include "SFML/Graphics.hpp"
 #include "Timer.h"
 #include "ScoreManager.h"
 #include "AssetManager.h"
+#include "HealthManager.h"
 
 class HUD
 {
 private:
 	Timer timer;
-	int& hp;
+	HealthManager hp;
 	ScoreManager score;
-	sf::Text hp_text;
 
 public:
-	HUD(AssetManager& assets, int& hp);
+	HUD(AssetManager& assets, HealthManager hp, Score::Type type);
+
+	ScoreManager& GetScoreManager() { return score; }
 
 	void Draw(sf::RenderWindow& target, sf::View& view);
 	void Update();
+	void UpdateHp();
 	void AddToScore();
 
 

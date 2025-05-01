@@ -25,12 +25,12 @@ private:
 	{
 		return pos_original + speed * (pos_expected - pos_original);
 	}
+	void SetPosition(sf::Vector2f pos);
 public:
 	Button(sf::String text);
 
 	// Setters
 	void SetSize(const sf::Vector2f& size);
-	void SetPosition(sf::Vector2f pos);
 	void SetPosition(float x, float y);
 	void SetFont(Font::Type font, GameDataRef data);
 	void SetCornerPointCount(unsigned int count);

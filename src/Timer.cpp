@@ -1,5 +1,6 @@
 #include "Timer.h"
 
+
 std::string Timer::GetString()
 {
     std::string text;

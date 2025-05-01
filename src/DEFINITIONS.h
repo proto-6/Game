@@ -52,7 +52,7 @@ namespace ButtonName
 {
 	enum Type
 	{
-		Play, Settings, Exit, None
+		Play, Exit, Alright, None
 	};
 }
 

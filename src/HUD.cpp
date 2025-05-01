@@ -1,26 +1,17 @@
 #include "HUD.h"
 
-HUD::HUD(AssetManager& assets, int& hp)
-	: timer(assets), hp(hp), score(assets)
+HUD::HUD(AssetManager& assets, HealthManager hp, Score::Type type)
+	: timer(assets), hp(hp), score(assets, type)
 {
-	std::stringstream stream;
-	stream << std::fixed << std::setprecision(1) << hp;
-	this->hp_text.setFont(assets.GetFont(Font::PixeloidSans));
-	this->hp_text.setCharacterSize(32);
-	this->hp_text.setString(stream.str());
-	this->hp_text.setOrigin(this->hp_text.getGlobalBounds().getSize() / 2.f + this->hp_text.getLocalBounds().getPosition());
-	this->hp_text.setPosition(80, 50);
+	
+	
 }
 
 void HUD::Draw(sf::RenderWindow& target, sf::View& view)
 {
 	target.setView(target.getDefaultView());
-
+	this->hp.Draw(target);
 	this->timer.Draw(target);
-	std::stringstream stream;
-	stream << std::fixed << std::setprecision(1) << hp;
-	this->hp_text.setString(stream.str());
-	target.draw(hp_text);
 	score.Draw(target);
 
 	target.setView(view);
@@ -30,6 +21,11 @@ void HUD::Update()
 {
 	this->timer.Update();
 
+}
+
+void HUD::UpdateHp()
+{
+	this->hp.ResetString();
 }
 
 void HUD::AddToScore()

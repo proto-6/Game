@@ -32,7 +32,7 @@ private:
 	std::pair<std::shared_ptr<MagicAttack>, bool> attack;
 	float attack_cooldown;
 
-	const float default_attack_cooldown = 3.f;
+	const float default_attack_cooldown = 2.f;
 
 public:
 	// Constructors

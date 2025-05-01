@@ -7,7 +7,6 @@
 #include "State.h"
 #include "Button.h"
 #include "DEFINITIONS.h"
-#include "GameMenuState.h"
 #include "Character.h"
 #include "BattleState.h"
 
@@ -18,6 +17,8 @@ private:
 	ButtonName::Type hover_button_type;
 	std::vector<gm::Button> buttons;
 	std::shared_ptr<Character> hero;
+
+	ScoreManager hi_score;
 public:
 	MainMenuState(GameDataRef data);
 

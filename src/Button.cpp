@@ -123,8 +123,8 @@ sf::Vector2f gm::Button::GetOrigin()
 ButtonName::Type gm::Button::GetButtonType()
 {
     if (text.getString() == "Play") return ButtonName::Type::Play;
-    else if (text.getString() == "Settings") return ButtonName::Type::Settings;
     else if (text.getString() == "Exit") return ButtonName::Type::Exit;
+    else if (text.getString() == "Alright") return ButtonName::Type::Alright;
     else return ButtonName::Type::None;
 }
 
@@ -133,7 +133,7 @@ void gm::Button::Hover(sf::Vector2f expected /*300, 100*/, sf::Vector2i mouse_po
     SetSize(this->rectangle.getSize() + speed * (expected - this->rectangle.getSize()));
     
 
-    SetPosition(original_position - (expected - original_size) / 2.0f);
+    SetPosition(original_position - (expected - original_size) / 4.0f);
     /*SetSize(original_size + speed * (hover_size - original_size));*/
 }
 
