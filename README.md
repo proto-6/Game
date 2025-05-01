@@ -1,14 +1,14 @@
-Game name is Magic Tinkerer. 
+Game name is Magic Tinkerer.  
+  
+This is simple game written on C++ & SFML framework.  
+Assets aren't mine. Found them here: https://0x72.itch.io/dungeontileset-ii  
 
-\nThis is simple game written on C++ & SFML framework. 
-\nAssets aren't mine. Found them here: https://0x72.itch.io/dungeontileset-ii
-
-\nControls are simple:
-\nWASD - to move
-\nAim mouse to set direction of an attack with simple & amazing* animation.
-\nEscape - to get sent to Valhalla
-
-\nDefeat enemies, earn point eat & repeat.
-
-
+Controls are simple:  
+WASD - to move  
+Aim mouse to set direction of an attack with simple & amazing* animation.  
+Escape - to get sent to Valhalla  
+  
+Defeat enemies, earn point eat & repeat.  
+  
+  
 \* okay-ish
