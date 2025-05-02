@@ -68,7 +68,7 @@ void MainMenuState::InitButtons()
 void MainMenuState::InitCharacter()
 {
 	hero = std::make_shared<Character>(Character(this->data->assets));
-	hero->SetScale(20, 20);
+	hero->SetScale(24, 24);
 	hero->SetState(CharacterMovement::State::Pose);
 	
 	hero->SetOrigin(hero->GetLocalBounds().width / 2.f, hero->GetLocalBounds().height / 2.f);
