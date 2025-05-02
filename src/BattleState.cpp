@@ -70,7 +70,6 @@ void BattleState::CheckCollisions()
 		if (hero_collision_box.intersects(enemy->GetGlobalBounds()))
 		{
 			this->hero->ReceiveDamage(*enemy);
-			this->hud.UpdateHp();
 			if (!(this->character_blink > 0.f))
 			{
 				this->character_blink = 0.5f;
@@ -164,7 +163,7 @@ void BattleState::HandleInput(float dt)
 
 void BattleState::Update(float dt)
 {
-	this->hud.Update();
+	this->hud.Update(dt);
 	UpdateView(dt);
 	this->hero->UpdateMovement(dt);
 	this->MapBordersCheck();
