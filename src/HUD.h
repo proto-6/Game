@@ -19,8 +19,7 @@ public:
 	ScoreManager& GetScoreManager() { return score; }
 
 	void Draw(sf::RenderWindow& target, sf::View& view);
-	void Update();
-	void UpdateHp();
+	void Update(float dt);
 	void AddToScore();
 
 

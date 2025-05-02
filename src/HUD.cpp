@@ -17,16 +17,14 @@ void HUD::Draw(sf::RenderWindow& target, sf::View& view)
 	target.setView(view);
 }
 
-void HUD::Update()
+void HUD::Update(float dt)
 {
 	this->timer.Update();
 
+	this->hp.Update(dt);
+
 }
 
-void HUD::UpdateHp()
-{
-	this->hp.ResetString();
-}
 
 void HUD::AddToScore()
 {
