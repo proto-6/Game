@@ -17,6 +17,7 @@ Character::Character(AssetManager& manager)
 	hp = 100.f;
 	attack_cooldown = default_attack_cooldown;
 	attack.second = false;
+	facing = Facing::Side::Right;
 }
 
 Character& Character::operator=(Character& other)
@@ -160,6 +161,33 @@ void Character::UpdateMovement(float dt)
 	{
 		this->velocity.x /= static_cast<float>(std::sqrt(2));
 		this->velocity.y /= static_cast<float>(std::sqrt(2));
+	}
+
+	if (this->velocity.x < 0)
+	{
+		this->facing = Facing::Side::Left;
+	}
+	else if (this->velocity.x > 0)
+	{
+		this->facing = Facing::Side::Right;
+	}
+
+
+	if (this->facing == Facing::Side::Left)
+	{
+		this->entity.setTextureRect(
+			sf::IntRect(16, 0,
+				-16,
+				21
+			));
+	}
+	else if (this->facing == Facing::Side::Right)
+	{
+		this->entity.setTextureRect(
+			sf::IntRect(0, 0,
+				16,
+				21
+			));
 	}
 
 	Move(this->velocity);
