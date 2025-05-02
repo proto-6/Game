@@ -14,6 +14,14 @@ namespace CharacterMovement
 	};
 }
 
+namespace Facing {
+	enum Side
+	{
+		Right,
+		Left
+	};
+}
+
 class Character : public Entity
 {
 private:
@@ -26,6 +34,7 @@ private:
 	float elapsed_time;
 	sf::Vector2f velocity;
 	float speed;
+	bool facing;
 
 	// Attack-related
 	// bool represents if attack is on the field
