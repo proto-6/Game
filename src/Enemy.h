@@ -5,11 +5,11 @@
 namespace Enemy_Consts {
 	const int default_amount_dash_stages = 4;
 	const float default_dash_attack_time = 0.12f;
-	const float after_attack_stun = 0.8f;
-	const float attack_time_delay = 1.6f;
+	const float after_attack_stun = 0.6f;
+	const float attack_time_delay = 0.5f;
 	const float default_collision_damage = 10.f;
 	const float default_after_damage_blink = 3.f;
-	const float dash_attack_damage = 15.f;
+	const float dash_attack_damage = 20.f;
 	const float default_attack_cooldown = 3.f;
 	const sf::Color attack_color = sf::Color(255, 0, 0, 120);
 }
