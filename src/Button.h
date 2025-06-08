@@ -16,7 +16,7 @@ class Button : public sf::Drawable
 private:
 	sf::Text text;
 	sf::RoundedRectangleShape rectangle;
-	sf::Vector2f original_size;
+	const sf::Vector2f original_size;
 	sf::Vector2f original_position;
 
 	void CentralizeText();
@@ -44,6 +44,7 @@ public:
 	float GetCornerRadius();
 	sf::FloatRect GetGlobalBounds();
 	sf::Vector2f GetOrigin();
+	sf::Vector2f GetOriginalSize() const { return this->original_size; }
 
 	ButtonName::Type GetButtonType();
 

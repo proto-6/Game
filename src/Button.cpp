@@ -16,10 +16,11 @@ void gm::Button::CentralizeTextOrigin()
 }
 
 gm::Button::Button(sf::String text)
+    :original_size(sf::Vector2f((300.f * SCREEN_WIDTH) / 1920.f, (100.f * SCREEN_HEIGHT) / 1080.f))
 {
     this->text.setString(text);
     
-    this->rectangle.setSize(sf::Vector2f(300, 100));
+    this->rectangle.setSize(sf::Vector2f((300.f * SCREEN_WIDTH) / 1920.f, (100.f * SCREEN_HEIGHT) / 1080.f));
     this->rectangle.setFillColor(sf::Color(128, 128, 128)); // Hex: #808080
     this->rectangle.setOutlineColor(sf::Color(218, 200, 200)); // Hex: #404040, if looking bad then chose #606060
     this->rectangle.setOutlineThickness(5);
@@ -27,7 +28,6 @@ gm::Button::Button(sf::String text)
     this->rectangle.setCornersRadius(4);
 
 
-    this->original_size = { 300, 100 };
 
 
     this->text.setFillColor(sf::Color(10, 10, 10));
@@ -48,7 +48,7 @@ void gm::Button::SetPosition(sf::Vector2f pos)
 {
     this->rectangle.setPosition(pos);
     
-    
+    CentralizeText();
     
     
 }

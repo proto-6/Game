@@ -38,17 +38,23 @@ void MainMenuState::InitButtons()
 			this->buttons.push_back(std::move(button_name));
 			this->buttons.back().SetFont(Font::PixeloidSans, data);
 
-			this->buttons.back().SetPosition
+			/*this->buttons.back().SetPosition
 			(
 				this->data->window.getSize().x / 8.f - this->buttons.back().GetSize().x / 8.f,
 				this->data->window.getSize().y / 1.4f
+			);*/
+			this->buttons.back().SetPosition
+			(
+				(this->data->window.getSize().x / 100.f) * 7.f,
+				(this->data->window.getSize().y / 100.f) * 72.f
 			);
 		}
 		else
 		{
-			float x = this->data->window.getSize().x / 8.f - this->buttons.back().GetSize().x / 8.f;
+			float x = this->data->window.getSize().x / 100.f * 7.f;
 			float y = this->buttons.back().GetPosition().y + this->buttons.back().GetSize().y;
-			float gap = this->buttons.back().GetSize().y / 4.5f;
+			float gap = ((20.f) * SCREEN_HEIGHT) / 1080.f;
+
 
 			this->buttons.push_back(std::move(button_name));
 			this->buttons.back().SetFont(Font::PixeloidSans, data);
@@ -138,13 +144,13 @@ void MainMenuState::UpdateButtons()
 
 		if (contains)
 		{
-			button.Hover(sf::Vector2f(305, 105), sf::Mouse::getPosition(this->data->window), 0.01f);
+			button.Hover(sf::Vector2f(button.GetOriginalSize().x + 5.f, button.GetOriginalSize().y + 5.f), sf::Mouse::getPosition(this->data->window), 0.01f);
 			hover_button_type = button.GetButtonType();
 
 		}
 		else if (!contains)
 		{
-			button.Hover(sf::Vector2f(300, 100), sf::Mouse::getPosition(this->data->window), 0.01f);
+			button.Hover(button.GetOriginalSize(), sf::Mouse::getPosition(this->data->window), 0.01f);
 
 			if (hover_button_type == button.GetButtonType())
 			{

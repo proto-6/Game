@@ -151,8 +151,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="DamageReceiveShader.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ClassDiagram.cd">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

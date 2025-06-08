@@ -3,7 +3,7 @@
 
 int main()
 {
-    Application app(1920, 1080, "Magic Tinkerer");
+    Application app(SCREEN_WIDTH, SCREEN_HEIGHT, "Magic Tinkerer");
 
     app.Run();
 
