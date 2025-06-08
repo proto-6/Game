@@ -2,8 +2,8 @@
 #include <memory>
 #define SPLASHstate_SHOW_TIME 3.0f
 #define TILE_SIZE 16
-#define SCREEN_WIDTH 1920.f
-#define SCREEN_HEIGHT 1080.f
+#define SCREEN_WIDTH sf::VideoMode::getDesktopMode().width // 1920.f
+#define SCREEN_HEIGHT sf::VideoMode::getDesktopMode().height // 1080.f
 #define NEGATIVE_BORDER_X -960
 #define POSITIVE_BORDER_X 960
 #define NEGATIVE_BORDER_Y -512

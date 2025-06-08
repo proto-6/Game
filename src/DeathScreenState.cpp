@@ -72,13 +72,13 @@ void DeathScreenState::Update(float dt)
 
 	if (contains)
 	{
-		button.Hover(sf::Vector2f(305, 105), sf::Mouse::getPosition(this->data->window), 0.01f);
+		button.Hover(sf::Vector2f(button.GetOriginalSize().x + 5.f, button.GetOriginalSize().y + 5.f), sf::Mouse::getPosition(this->data->window), 0.01f);
 		hover_button_type = button.GetButtonType();
 
 	}
 	else if (!contains)
 	{
-		button.Hover(sf::Vector2f(300, 100), sf::Mouse::getPosition(this->data->window), 0.01f);
+		button.Hover(button.GetOriginalSize(), sf::Mouse::getPosition(this->data->window), 0.01f);
 
 		if (hover_button_type == button.GetButtonType())
 		{

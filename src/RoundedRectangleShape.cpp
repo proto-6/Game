@@ -4,7 +4,6 @@
 
 namespace sf
 {
-    ////////////////////////////////////////////////////////////
     RoundedRectangleShape::RoundedRectangleShape(const Vector2f& size, float radius, unsigned int cornerPointCount)
     {
         mySize = size;
@@ -13,46 +12,39 @@ namespace sf
         update();
     }
 
-    ////////////////////////////////////////////////////////////
     void RoundedRectangleShape::setSize(const Vector2f& size)
     {
         mySize = size;
         update();
     }
 
-    ////////////////////////////////////////////////////////////
     const Vector2f& RoundedRectangleShape::getSize() const
     {
         return mySize;
     }
 
-    ////////////////////////////////////////////////////////////
     void RoundedRectangleShape::setCornersRadius(float radius)
     {
         myRadius = radius;
         update();
     }
 
-    ////////////////////////////////////////////////////////////
     float RoundedRectangleShape::getCornersRadius() const
     {
         return myRadius;
     }
 
-    ////////////////////////////////////////////////////////////
     void RoundedRectangleShape::setCornerPointCount(unsigned int count)
     {
         myCornerPointCount = count;
         update();
     }
 
-    ////////////////////////////////////////////////////////////
     std::size_t RoundedRectangleShape::getPointCount() const
     {
         return myCornerPointCount * 4;
     }
 
-    ////////////////////////////////////////////////////////////
     sf::Vector2f RoundedRectangleShape::getPoint(std::size_t index) const
     {
         if (index >= myCornerPointCount * 4)

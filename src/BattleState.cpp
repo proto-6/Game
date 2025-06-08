@@ -120,7 +120,7 @@ void BattleState::UpdateView(float dt)
 }
 
 BattleState::BattleState(GameDataRef data, std::shared_ptr<Character> hero)
-	: data(data), hero(hero), rng(std::random_device{}()), enemy_spawnrate(0.f), map(data->window.getSize()), hud(this->data->assets, HealthManager{this->data->assets, hero->GetHealth()}, Score::Type::In_Game), character_blink(0.f)
+	: data(data), hero(hero), rng(std::random_device{}()), enemy_spawnrate(0.f), map(sf::Vector2u(1920, 1080)), hud(this->data->assets, HealthManager{this->data->assets, hero->GetHealth()}, Score::Type::In_Game), character_blink(0.f)
 {
 	
 }
